@@ -12,7 +12,7 @@ public class Principal {
 		// Lendo uma string do console com a biblioteca Scanner.
 		String nome = in.nextLine();
 		
-		// Exibindo o nome lido com printf (print formatado, %s é para string).
+		// Exibindo o nome lido com printf (print formatado, %s é para string)...
 		System.out.printf("Olá, %s!\n", nome);
 		in.close();
 	}
