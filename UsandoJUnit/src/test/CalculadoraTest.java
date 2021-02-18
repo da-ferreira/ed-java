@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import calculadora.Calculadora;
 
 class CalculadoraTest {
-
 	@Test
 	void test() {
 		Calculadora	calc = new Calculadora();
