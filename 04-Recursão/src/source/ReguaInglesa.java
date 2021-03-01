@@ -10,7 +10,7 @@ public class ReguaInglesa {
 		drawRuler(3, 4);
 		/*
 		 * Regua de 3 polegadas com marca principal de tamanho 5:
-		 *  ---- 0
+		 *  	---- 0
 		 *	-
 		 * 	--
 		 *	-
