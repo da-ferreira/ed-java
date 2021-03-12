@@ -39,9 +39,13 @@ public class ArrayQueue<Type> implements Queue<Type> {
 	}
 	
 	public void enqueue(Type element) {
-		// Lança uma exceção caso a fila já esteja cheia.
-		// O elementos vão de 0 até N - 1.
-		if (size() == this.capacity - 1)  {
+	   /* 
+		* Lança uma exceção caso a fila já esteja cheia.
+		* A fila nao deve atingir sua capacidade máxima, indo de até N - 1 elementos.
+		* Caso atinja, ocorre erro, porque o nextEmpty vai parar na posicao 0, corroendo a fila.
+		*/
+		
+		if (size() == this.capacity - 1) {
 			throw new FullQueueException("The queue is full");
 		}
 		
