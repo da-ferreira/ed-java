@@ -155,8 +155,10 @@ public class NodePositionList<Type> implements PositionList<Type> {
 			lista_string += element + ", ";
 		}
 		
-		lista_string = lista_string.substring(0, lista_string.length() - 2) + "]";
-		return lista_string;
+		if (list.size() > 0)
+			lista_string = lista_string.substring(0, lista_string.length() - 2);
+		
+		return lista_string  + "]";
 	}
 	
 	public String toString() {
