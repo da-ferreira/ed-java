@@ -8,13 +8,15 @@ import tools.NodeStack;
  */
 
 public class InverteArranjo {
-	public <Type> NodeStack<Type> inverter(NodeStack<Type> lista) {
-		NodeStack<Type> newList = new NodeStack<Type>(); 
+	public static void inverter(int lista[]) {
+		NodeStack<Integer> pilha = new NodeStack<Integer>();
 		
-		for (int i=0; i < lista.size(); i++) {
-			newList.push(lista.pop());
+		for (int i=0; i < lista.length; i++) {
+			pilha.push(lista[i]);
 		}
 		
-		return newList;
+		for (int i=0; i < lista.length; i++) {
+			lista[i] = pilha.pop();
+		}
 	}
-}
+}		
