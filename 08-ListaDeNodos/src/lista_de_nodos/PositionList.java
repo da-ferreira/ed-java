@@ -69,6 +69,13 @@ public interface PositionList<Type> extends Iterable<Type> {
 	 */
 	public Type set(Position<Type> position, Type newElement) throws InvalidPositionException;
 	
+	/**
+	 * Move o elemento na posição "position" para o inicio da lista, mantendo a ordem relativa dos demais elementos.
+	 * @param position: posição do elemento.
+	 * @throws InvalidPositionException: Caso a posicao do elemento (position) seja inválida.
+	 */
+	public void makeFirst(Position<Type> position) throws InvalidPositionException;
+	
 	/** Retorna um iterador sobre todos os elementos da lista. */
 	public Iterator<Type> iterator();
 }

@@ -147,6 +147,20 @@ public class NodePositionList<Type> implements PositionList<Type> {
 		
 		return oldPointElement;
 	}
+	
+	public void makeFirst(Position<Type> position) throws InvalidPositionException {
+		Node<Type> point = checkPosition(position);
+		
+		Node<Type> pointPrevious = point.getPrevious();  // Pegando o elemento anterior ao da posicao
+		Node<Type> pointNext = point.getNext();          // Pegando o proximo elemento ao da posicao
+		pointPrevious.setNext(pointNext);
+		pointNext.setPrevious(pointPrevious);
+		
+		header.getNext().setPrevious(point);
+		point.setNext(header.getNext());
+		header.setNext(point);
+		point.setPrevious(header);
+	}
 
 	public static <Type> String toString(PositionList<Type> list) {
 		String lista_string = "[";

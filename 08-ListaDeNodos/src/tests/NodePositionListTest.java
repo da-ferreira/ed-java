@@ -27,7 +27,8 @@ class NodePositionListTest {
 		Position<Integer> p2 = l.next(p1);
 		assertEquals(new Integer(5), p2.element(), "5");
 		assertEquals("[8, 5]", l.toString(), "[8, 5]");
-	
+		
+		
 		l.addBefore(p2, 3);
 		assertEquals("[8, 3, 5]", l.toString(), "[8, 3, 5]");
 	
