@@ -9,7 +9,7 @@ import position.PositionList;
  * O nodo da árvore mantêm um elemento, um nodo pai,
  * um nodo para os filhos como um Lista de Nodos.
  * 
- * @author david-ferreira
+ * @author david-ferreira	
  */
 
 public interface TreePosition<Type> extends Position<Type> {
