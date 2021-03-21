@@ -6,8 +6,10 @@ import java.util.Iterator;
 import exceptions.BoundaryViolationException;
 import exceptions.EmptyTreeException;
 import exceptions.InvalidPositionException;
+import exceptions.NonEmptyTreeException;
 import position.Position;
 import position.PositionList;
+import position.NodePositionList;
 
 /**
  * Uma classe para u árvore ligada (árvore genérica) onde os nodos têm um número arbitrário de filhos.
@@ -81,8 +83,29 @@ public class LinkedTree<Type> implements Tree<Type> {
 		return node_position == root;
 	}
 	
+	/** Troca os elementos de V com W */
+	public void swapElements(Position<Type> V, Position<Type> W) throws InvalidPositionException {
+		TreePosition<Type> point_v = checkPosition(V);
+		TreePosition<Type> point_w = checkPosition(W);
+		
+		Type temp = point_v.getElement();
+		point_v.setElement(point_w.getElement());
+		point_w.setElement(temp);
+		
+	}
+	
+	/** Adiciona uma raíz em uma árvore vazia. */
+	public TreePosition<Type> addRoot(Type element) throws NonEmptyTreeException {
+		if (this.size > 0)
+			throw new NonEmptyTreeException("The tree is not empty");
+		
+		root = new TreeNode<Type>(element, null, null);
+		size++;
+		return root;
+	}
+	
 	public Iterable<Position<Type>> positions() {
-		PositionList<Position<Type>> positions = new PositionList<Position<Type>>();
+		PositionList<Position<Type>> positions = new NodePositionList<Position<Type>>();
 		
 		// falta fazer o preOrderPosition
 	}
@@ -91,7 +114,6 @@ public class LinkedTree<Type> implements Tree<Type> {
 		return null;
 		// falta fazer o preOrderPosition
 	}
-	
 	
 	/** Testa se position é um nó da árvore, se for transforma (cast) em TreePosition<Type>,
 	 * caso contrário, lança um InvalidPositionException */
@@ -103,5 +125,10 @@ public class LinkedTree<Type> implements Tree<Type> {
 		return (TreePosition<Type>) position;  // Cast com TreePosition
 	}
 	
-	
+	/** Cria um nó para a arvore, com seu elemento, sua posição para o nó Pai,
+	 *  e a lista contendo um ou mais referencias (posição) para seus filhos. */
+	protected TreePosition<Type> createNode(Type element, TreePosition<Type> parent, PositionList<Position<Type>> children) {
+		return new TreeNode<Type>(element, parent, children);
+	}
 }
+          
