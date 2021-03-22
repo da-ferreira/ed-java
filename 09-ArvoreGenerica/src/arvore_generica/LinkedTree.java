@@ -12,7 +12,7 @@ import position.PositionList;
 import position.NodePositionList;
 
 /**
- * Uma classe para u árvore ligada (árvore genérica) onde os nodos têm um número arbitrário de filhos.
+ * Uma classe para uma árvore ligada (árvore genérica) onde os nodos têm um número arbitrário de filhos.
  * @author david-ferreira
  */
 
