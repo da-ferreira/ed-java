@@ -130,5 +130,19 @@ public class LinkedTree<Type> implements Tree<Type> {
 	protected TreePosition<Type> createNode(Type element, TreePosition<Type> parent, PositionList<Position<Type>> children) {
 		return new TreeNode<Type>(element, parent, children);
 	}
+	
+	public String toString() {
+		if (this.size == 0)
+			return "[]";
+		
+		String tree = "";
+		
+		for (Type element : this) {
+			tree += element + ", ";
+		}
+		
+		tree = tree.substring(0, tree.length() - 2) + "]";
+		return tree;
+	}
 }
           
