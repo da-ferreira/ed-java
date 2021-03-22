@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import arvore_generica.LinkedTree;
 import arvore_generica.TreePosition;
 import arvore_generica.TreeNode;
+import position.NodePositionList;
 import position.Position;
 import position.PositionList;
 
@@ -60,5 +61,59 @@ class LinkedTreeTest {
 		+ "Ultramar, África, Europa, Ásia, Austrália, Nacional, Compras, Manufatura, TV, CD, Tuner]",
 		T.toString(), "Pré-ordem da Árvore T ");
 	}
+	
+	private TreeNode<String> criarFilho(TreeNode<String> p, String n) {
+		PositionList<Position<String>> filhos;
+		TreeNode<String> aux;
+
+		filhos = p.getChildren();      // Obtém os Filhos de p
+		aux = new TreeNode<String>();  // Cria um novo filho
+
+		aux.setElement(n);
+		aux.setParent(p);
+		aux.setChildren(new NodePositionList<Position<String>>());
+		filhos.addLast(aux);
+
+		return aux;
+	}
+	
+	/** Implementação da árvore que está no Slide da Tarefa 15, pág. 33 */
+	public LinkedTree<String> criarArvoreT() {
+		LinkedTree<String> T = new LinkedTree<String>();
+		TreeNode<String> raiz, v, m, i, u;
+
+		T.addRoot("Eletronics R'Us");
+		raiz = (TreeNode<String>) T.root();
+		raiz.setChildren(new NodePositionList<Position<String>>());
+
+		// Filhos da raiz: Eletronic R'Us
+		criarFilho(raiz, "P&D");
+		v = criarFilho(raiz, "Vendas");
+		criarFilho(raiz, "Compras");
+		m = criarFilho(raiz, "Manufatura");
+
+		// Filhos de Vendas
+		i = criarFilho(v, "Internacional");
+		criarFilho(v, "Nacional");
+
+		// Filhos de Internacional
+		criarFilho(i, "Canadá");
+		criarFilho(i, "América do Sul");
+		u = criarFilho(i, "Ultramar");
+
+		// Filhos de Ultramar
+		criarFilho(u, "África");
+		criarFilho(u, "Europa");
+		criarFilho(u, "Ásia");
+		criarFilho(u, "Austrália");
+
+		// Filhos de Manufatura
+		criarFilho(m, "TV");
+		criarFilho(m, "CD");
+		criarFilho(m, "Tuner");
+		
+		return T;
+	}
 }
+   
       
