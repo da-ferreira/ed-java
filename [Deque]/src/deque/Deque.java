@@ -5,7 +5,7 @@ import exceptions.EmptyDequeException;
 
 /**
  * DEQUE: Double Ended Queue (fila duplamente terminada).
- * Permite adicionar e remove elementos no final e começo da fila.
+ * Permite adicionar e remover elementos no final e começo da fila.
  * @author david-ferreira
  */
 
@@ -85,6 +85,43 @@ public class Deque<Type> {
 			throw new EmptyDequeException("The deque is empty");
 		}
 		
-		return null;
+		Node<Type> point = tail.getPrevious();
+		Type toReturn =  point.getElement();
+		
+		tail.setPrevious(point.getPrevious());
+		point.getPrevious().setNext(tail);
+		
+		point.setPrevious(null);
+		point.setNext(null);
+		
+		size--;
+		return toReturn;
+	}
+	
+	/**
+	 * Pega o primeiro elemento do deque
+	 * @return o elemento
+	 * @throws EmptyDequeException: Caso o deque esteja vazio.
+	 */
+	public Type peekFirst() throws EmptyDequeException {
+		if (this.size == 0) {
+			throw new EmptyDequeException("The deque is empty");
+		}
+		
+		return head.getNext().getElement();
+	}
+	
+	/**
+	 * Pega o ultimo elemento do deque
+	 * @return o elemento
+	 * @throws EmptyDequeException: Caso o deque esteja vazio.
+	 */
+	public Type peekEnd() throws EmptyDequeException {
+		if (this.size == 0) {
+			throw new EmptyDequeException("The deque is empty");
+		}
+		
+		return tail.getPrevious().getElement();
 	}
 }
+   
