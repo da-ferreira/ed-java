@@ -20,7 +20,7 @@ class LinkedTreeTest {
 		PositionList<Position<String>> filhos;
 	
 		LinkedTree<String> T = criarArvoreT();
-	
+		
 		System.out.println(T.parentheticRepresentation(T, T.root()));
 		System.out.println(T.toStringPostorder(T, T.root()));
 	

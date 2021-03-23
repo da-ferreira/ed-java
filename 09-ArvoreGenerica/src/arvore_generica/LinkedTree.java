@@ -3,6 +3,8 @@ package arvore_generica;
 
 import java.util.Iterator;
 
+import org.junit.platform.commons.util.Preconditions;
+
 import exceptions.BoundaryViolationException;
 import exceptions.EmptyTreeException;
 import exceptions.InvalidPositionException;
@@ -105,14 +107,25 @@ public class LinkedTree<Type> implements Tree<Type> {
 	}
 	
 	public Iterable<Position<Type>> positions() {
-		PositionList<Position<Type>> positions = new NodePositionList<Position<Type>>();
+		NodePositionList<Position<Type>> positions = new NodePositionList<Position<Type>>();
 		
-		// falta fazer o preOrderPosition
+		if (this.size > 0)
+			preOrderPositions(root(), positions);
+		
+		return positions;
 	}
 	
 	public Iterator<Type> iterator() {
 		return null;
 		// falta fazer o preOrderPosition
+	}
+	
+	public void preOrderPositions(Position<Type> nodes, PositionList<Position<Type>> list) throws InvalidPositionException {
+		list.addLast(nodes);
+		
+		for (Position<Type> no : children(nodes)) {
+			preOrderPositions(no, list);
+		}
 	}
 	
 	/** Testa se position é um nó da árvore, se for transforma (cast) em TreePosition<Type>,
@@ -131,18 +144,9 @@ public class LinkedTree<Type> implements Tree<Type> {
 		return new TreeNode<Type>(element, parent, children);
 	}
 	
-	public String toString() {
-		if (this.size == 0)
-			return "[]";
-		
-		String tree = "";
-		
-		for (Type element : this) {
-			tree += element + ", ";
-		}
-		
-		tree = tree.substring(0, tree.length() - 2) + "]";
-		return tree;
+	public String toStringPreOrder() {
+		NodePositionList<Position<Type>> represent = (NodePositionList<Position<Type>>) positions();
+		return represent.toString();
 	}
 }
           
