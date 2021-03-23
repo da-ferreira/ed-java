@@ -123,5 +123,22 @@ public class Deque<Type> {
 		
 		return tail.getPrevious().getElement();
 	}
+	
+	public String toString() {
+		if (this.size == 0) {
+			return "[]";
+		}
+		
+		String deque_str = "[";
+		Node<Type> point = head.getNext();
+		
+		while (point != tail) {
+			deque_str += point.getElement() + ", ";
+			point = point.getNext();
+		}
+		
+		deque_str = deque_str.substring(0, deque_str.length() - 2) + "]";
+		return deque_str;
+	}
 }
    
