@@ -3,8 +3,6 @@ package arvore_generica;
 
 import java.util.Iterator;
 
-import org.junit.platform.commons.util.Preconditions;
-
 import exceptions.BoundaryViolationException;
 import exceptions.EmptyTreeException;
 import exceptions.InvalidPositionException;
@@ -120,12 +118,51 @@ public class LinkedTree<Type> implements Tree<Type> {
 		// falta fazer o preOrderPosition
 	}
 	
-	public void preOrderPositions(Position<Type> nodes, PositionList<Position<Type>> list) throws InvalidPositionException {
+	// MÉTODOS ADICIONAIS:
+	
+	/** Adiciona em uma lista de nós (NodePositionList) os elementos da árvore em percurso pré-ordem. */
+	public void preOrderPositions(Position<Type> nodes, NodePositionList<Position<Type>> list) throws InvalidPositionException {
 		list.addLast(nodes);
 		
 		for (Position<Type> no : children(nodes)) {
 			preOrderPositions(no, list);
 		}
+	}
+	
+	/** Adiciona em uma lista de nós (NodePositionList) os elementos da árvore em percurso pós-ordem. */
+	public void postOrderPositions(Position<Type> nodes, NodePositionList<Position<Type>> list) {
+		for (Position<Type> no: children(nodes)) {
+			postOrderPositions(no, list);
+		}
+		
+		list.addLast(nodes);
+	}
+	
+	/** Retorna a profundidade de "Tnode" de uma árvore qualquer. 
+	  * A profundidade de Tnode é o numero de ancestrais de Tnode excluindo ele mesmo. */
+	public int depth(Position<Type> Tnode) {
+		int depth_Tnode = 0;
+		Position<Type> point = Tnode;
+				
+		while (point != this.root) {
+			depth_Tnode++;
+			point = parent(point);
+		}
+		
+		return depth_Tnode;
+	}
+	
+	/** Retorna a altura de um árvore qualquer. Esse método é ruim, porque chama a função depth(no) varias vezes. */
+	public int height1() {
+		int height = 0;
+		Iterable<Position<Type>> tree = positions();
+		
+		for (Position<Type> no : tree) {
+			if (isExternal(no))
+				height = max(height, depth(no));
+		}
+		
+		return height;
 	}
 	
 	/** Testa se position é um nó da árvore, se for transforma (cast) em TreePosition<Type>,
@@ -144,9 +181,46 @@ public class LinkedTree<Type> implements Tree<Type> {
 		return new TreeNode<Type>(element, parent, children);
 	}
 	
+	private int max(int value_1, int value_2) {
+		if (value_1 >= value_2)
+			return value_1;
+		
+		return value_2;
+	}
+	
 	public String toStringPreOrder() {
-		NodePositionList<Position<Type>> represent = (NodePositionList<Position<Type>>) positions();
-		return represent.toString();
+		Iterable<Position<Type>> represent = positions();
+		
+		if (isEmpty())
+			return "[]";
+		
+		String tree_repr = "[";
+		
+		for (Position<Type> element : represent) {
+			tree_repr += element.element() + ", ";
+		}
+		
+		tree_repr = tree_repr.substring(0, tree_repr.length() - 2) + "]";
+		return tree_repr;
+	}
+	
+	public String toStringPostOrder() {
+		NodePositionList<Position<Type>> positions = new NodePositionList<Position<Type>>();
+		
+		if (isEmpty())
+			return "[]";
+		
+		postOrderPositions(root(), positions);
+		
+		String tree_repr = "[";
+		
+		for (Position<Type> element : positions) {
+			tree_repr += element.element() + ", ";
+		}
+		
+		tree_repr = tree_repr.substring(0, tree_repr.length() - 2) + "]";
+		return tree_repr;
+		
 	}
 }
           

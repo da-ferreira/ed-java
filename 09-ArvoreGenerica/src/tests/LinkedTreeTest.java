@@ -20,18 +20,18 @@ class LinkedTreeTest {
 		PositionList<Position<String>> filhos;
 	
 		LinkedTree<String> T = criarArvoreT();
+
+		//System.out.println(T.parentheticRepresentation(T, T.root()));
+		assertEquals("[P&D, Canadá, América do Sul, África, Europa, Ásia, Austrália, Ultramar, Internacional, Nacional, Vendas, Compras, TV, CD, Tuner, Manufatura, Eletronics R'Us]", T.toStringPostOrder(), "Pós-ordem da Árvore T.");
 		
-		System.out.println(T.parentheticRepresentation(T, T.root()));
-		System.out.println(T.toStringPostorder(T, T.root()));
-	
 		assertFalse(T.isEmpty());
 	
-		assertEquals(4, T.height1(T), "Altura da Árvore T");
-		assertEquals(4, T.height2(T, T.root()), "Altura da Árvore T");
+		assertEquals(4, T.height1(), "Altura da Árvore T");
+		//assertEquals(4, T.height2(T, T.root()), "Altura da Árvore T");
 	
 		assertEquals("[Eletronics R'Us, P&D, Vendas, Internacional, Canadá, América do Sul, "
 		+ "Ultramar, África, Europa, Ásia, Austrália, Nacional, Compras, Manufatura, TV, CD, Tuner]",
-		T.toString(), "Pré-ordem da Árvore T ");
+		T.toStringPreOrder(), "Pré-ordem da Árvore T ");
 	
 		raiz = T.root();
 		filhos = raiz.getChildren();
@@ -45,13 +45,13 @@ class LinkedTreeTest {
 	
 		assertEquals("Vendas", s.element().element(), "Vendas");
 		assertTrue(T.isInternal(s.element()));
-		assertEquals(1, T.depth(T, s.element()), "");
+		assertEquals(1, T.depth(s.element()), "");
 	
 		T.replace(p.element(), "Pesquisa e Desenvolvimento");
 	
 		assertEquals("[Eletronics R'Us, Pesquisa e Desenvolvimento, Vendas, Internacional, Canadá, América do Sul, "
 		+ "Ultramar, África, Europa, Ásia, Austrália, Nacional, Compras, Manufatura, TV, CD, Tuner]",
-		T.toString(), "Pré-ordem da Árvore T ");
+		T.toStringPreOrder(), "Pré-ordem da Árvore T ");
 		
 		assertTrue(T.isRoot(raiz));
 		
@@ -59,7 +59,7 @@ class LinkedTreeTest {
 
 		assertEquals("[Eletronics R'Us, Vendas, Pesquisa e Desenvolvimento, Internacional, Canadá, América do Sul, "
 		+ "Ultramar, África, Europa, Ásia, Austrália, Nacional, Compras, Manufatura, TV, CD, Tuner]",
-		T.toString(), "Pré-ordem da Árvore T ");
+		T.toStringPreOrder(), "Pré-ordem da Árvore T ");
 	}
 	
 	private TreeNode<String> criarFilho(TreeNode<String> p, String n) {

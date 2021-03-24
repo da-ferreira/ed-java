@@ -51,6 +51,10 @@ public class TreeNode<Type> implements TreePosition<Type> {
 	public TreePosition<Type> getParent() {
 		return parent;
 	}
+	
+	public String toString() {
+		return "" + element; 
+	}
 
 	@Override
 	public Type element() {
