@@ -165,6 +165,23 @@ public class LinkedTree<Type> implements Tree<Type> {
 		return height;
 	}
 	
+	/** Retorna a altura de um árvore qualquer. Esse método é mais eficiente que o de cima. */
+	public int height2(LinkedTree<Type> tree, Position<Type> node) {
+		if (isExternal(node)) {
+			return 0;
+		}
+		else {
+			int height = 0;
+			Iterable<Position<Type>> filhos = children(node);
+			
+			for (Position<Type> iesimo_filho : filhos) {
+				height = max(height, height2(tree, iesimo_filho));
+			}
+			
+			return height + 1;
+		}
+	}
+	
 	/** Testa se position é um nó da árvore, se for transforma (cast) em TreePosition<Type>,
 	 * caso contrário, lança um InvalidPositionException */
 	protected TreePosition<Type> checkPosition(Position<Type> position) throws InvalidPositionException {
