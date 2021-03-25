@@ -21,13 +21,16 @@ class LinkedTreeTest {
 	
 		LinkedTree<String> T = criarArvoreT();
 
-		//System.out.println(T.parentheticRepresentation(T, T.root()));
-		assertEquals("[P&D, Canadá, América do Sul, África, Europa, Ásia, Austrália, Ultramar, Internacional, Nacional, Vendas, Compras, TV, CD, Tuner, Manufatura, Eletronics R'Us]", T.toStringPostOrder(), "Pós-ordem da Árvore T.");
+		assertEquals("Eletronics R'Us(P&D, Vendas(Internacional(Canadá, América do Sul, Ultramar(África, Europa, Ásia, Austrália)), Nacional),"
+				+ " Compras, Manufatura(TV, CD, Tuner))", T.parentheticRepresentation(T.root()),  "Representação em parenteses da Árvore T.");
+		
+		assertEquals("[P&D, Canadá, América do Sul, África, Europa, Ásia, Austrália, Ultramar, Internacional, Nacional,"
+				+ " Vendas, Compras, TV, CD, Tuner, Manufatura, Eletronics R'Us]", T.toStringPostOrder(), "Pós-ordem da Árvore T.");
 		
 		assertFalse(T.isEmpty());
 	
 		assertEquals(4, T.height1(), "Altura da Árvore T");
-		//assertEquals(4, T.height2(T, T.root()), "Altura da Árvore T");
+		assertEquals(4, T.height2(T, T.root()), "Altura da Árvore T");
 	
 		assertEquals("[Eletronics R'Us, P&D, Vendas, Internacional, Canadá, América do Sul, "
 		+ "Ultramar, África, Europa, Ásia, Austrália, Nacional, Compras, Manufatura, TV, CD, Tuner]",
@@ -49,9 +52,8 @@ class LinkedTreeTest {
 	
 		T.replace(p.element(), "Pesquisa e Desenvolvimento");
 	
-		assertEquals("[Eletronics R'Us, Pesquisa e Desenvolvimento, Vendas, Internacional, Canadá, América do Sul, "
-		+ "Ultramar, África, Europa, Ásia, Austrália, Nacional, Compras, Manufatura, TV, CD, Tuner]",
-		T.toStringPreOrder(), "Pré-ordem da Árvore T ");
+		assertEquals("[Eletronics R'Us, Pesquisa e Desenvolvimento, Vendas, Internacional, Canadá, América do Sul,"
+				+ " Ultramar, África, Europa, Ásia, Austrália, Nacional, Compras, Manufatura, TV, CD, Tuner]", T.toStringPreOrder(), "Pré-ordem da Árvore T ");
 		
 		assertTrue(T.isRoot(raiz));
 		

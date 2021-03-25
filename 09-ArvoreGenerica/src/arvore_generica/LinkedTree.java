@@ -182,6 +182,28 @@ public class LinkedTree<Type> implements Tree<Type> {
 		}
 	}
 	
+	public String parentheticRepresentation(Position<Type> node) {
+		String represent = node.element().toString();
+		
+		if (isInternal(node)) {  // Se ele não for um nó folha.
+			boolean first = true;
+			
+			for (Position<Type> no : children(node)) {
+				if (first) {  // primeiro filho da lista de filhos
+					represent += "(" +  parentheticRepresentation(no);
+					first = false;
+				}
+				else {
+					represent += ", " + parentheticRepresentation(no);
+				}
+			}
+			
+			represent += ")";
+		}
+		
+		return represent;
+	}
+	
 	/** Testa se position é um nó da árvore, se for transforma (cast) em TreePosition<Type>,
 	 * caso contrário, lança um InvalidPositionException */
 	protected TreePosition<Type> checkPosition(Position<Type> position) throws InvalidPositionException {
