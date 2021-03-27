@@ -114,8 +114,13 @@ public class LinkedTree<Type> implements Tree<Type> {
 	}
 	
 	public Iterator<Type> iterator() {
-		return null;
-		// falta fazer o preOrderPosition
+		Iterable<Position<Type>> positions = positions();
+		NodePositionList<Type> elements = new NodePositionList<Type>();
+		
+		for (Position<Type> node : positions)
+			elements.addLast(node.element());
+		
+		return elements.iterator();
 	}
 	
 	// MÉTODOS ADICIONAIS:
