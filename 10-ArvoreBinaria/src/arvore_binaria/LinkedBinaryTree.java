@@ -10,8 +10,7 @@ import exceptions.NonEmptyTreeException;
 import lista_de_nodos.NodePositionList;
 
 /*
- * public Iterable<BTNode<Type>> positions()
- *
+ * positionsInorder()
  * public Iterator<Type> iterator()
  */
 
@@ -117,12 +116,44 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		return point.getRight() != null;
 	}
 	
+	/** Retorna uma coleção iterável (NodePositionList) contendo os nós da árvore em percurso pré-ordem. */
 	public Iterable<BTNode<Type>> positions() {
-		return null;
+		NodePositionList<BTNode<Type>> positions = new NodePositionList<BTNode<Type>>();
+		
+		if (this.size > 0)
+			preOrderPosition(root(), positions);
+		
+		return positions;
+	}
+	
+	/** Retorna uma coleção iterável (NodePositionList) contendo os nós da árvore em percurso em-ordem. */
+	public Iterable<BTNode<Type>> positionsInOrder() {
+		NodePositionList<BTNode<Type>> positions = new NodePositionList<BTNode<Type>>();
+		
+		if (this.size > 0)
+			inOrderPosition(root(), positions);
+		
+		return positions;
+	}
+	
+	/** Retorna uma coleção iterável (NodePositionList) contendo os nós da árvore em percurso pós-ordem. */
+	public Iterable<BTNode<Type>> positionsPostOrder() {
+		NodePositionList<BTNode<Type>> positions = new NodePositionList<BTNode<Type>>();
+		
+		if (this.size > 0)
+			postOrderPosition(root(), positions);
+		
+		return positions;
 	}
 	
 	public Iterator<Type> iterator() {
-		return null;
+		Iterable<BTNode<Type>> positions = positions();
+		NodePositionList<Type> elements = new NodePositionList<Type>();
+		
+		for (BTNode<Type> node : positions)
+			elements.addLast(node.element());
+		
+		return elements.iterator();
 	}
 	
 	/* MÉTODOS ADICIONAIS */
@@ -294,11 +325,42 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	
 	/* MÉTODOS DE CAMINHAMENTO */
 	
-	/** Adiciona em uma lista de nós (NodePositionList) os elementos da árvore em percurso pré-ordem. */
+	/** Adiciona em uma lista de nós (NodePositionList) os elementos da árvore em percurso pré-ordem, 
+	 *  mostrando a raiz, o elemento a esquerda e depois o elemento a direita */
 	protected void preOrderPosition(BTNode<Type> node, NodePositionList<BTNode<Type>> list) {
+		list.addLast(node);
 		
+		if (hasLeft(node))
+			preOrderPosition(left(node), list);  // Chama recursivamente o filho da esquerda
+		if (hasRight(node))
+			preOrderPosition(right(node), list);  // Chama recursivamente o filho da direita
 	}
 	
+	/** Adiciona em uma lista de nós (NodePositionList) os elementos da árvore em percurso em-ordem, 
+	 *  mostrando o elemento a esquerda, a raiz e depois o elemento a direita */
+	protected void inOrderPosition(BTNode<Type> node, NodePositionList<BTNode<Type>> list) {
+		if (hasLeft(node))
+			inOrderPosition(left(node), list);  // Chama recursivamente a sub-arvore da esquerda
+		
+		list.addLast(node);  // Adiciona a raíz
+		
+		if (hasRight(node))
+			inOrderPosition(right(node), list);  // Chama recursivamente a sub-arvore da direita
+	}
+	
+	/** Adiciona em uma lista de nós (NodePositionList) os elementos da árvore em percurso pós-ordem, 
+	 *  mostrando o elemento a esquerda, o elemento a direita e depois a raiz */
+	protected void postOrderPosition(BTNode<Type> node, NodePositionList<BTNode<Type>> list) {
+		if (hasLeft(node))
+			postOrderPosition(left(node), list);
+		
+		if (hasRight(node))
+			postOrderPosition(right(node), list);
+		
+		list.addLast(node);
+	}
+	
+
 	/* MÉTODOS AUXILIARES */
 	
 	/** Cria e retorna um BTNode */
