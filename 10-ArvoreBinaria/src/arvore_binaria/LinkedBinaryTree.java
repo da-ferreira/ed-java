@@ -266,6 +266,45 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		size--;
 		return point.element();
 	}
+	
+	/**
+	 * Conecta duas árvore para serem subárvores de um nodo externo.
+	 * @param node: Nó externo
+	 * @param tree1: Primeira árvore (esquerda). 
+	 * @param tree2: Segunda árvore (direita).
+	 * @throws InvalidPositionException: Caso o nó passado seja inválido ou ele não seja externo (folha).
+	 */
+	public void attach(BTNode<Type> node, LinkedBinaryTree<Type> tree1, LinkedBinaryTree<Type> tree2) throws InvalidPositionException {
+		BTNode<Type> point = checkPosition(node);
+		
+		if (isInternal(point))
+			throw new InvalidPositionException("The node is not external");
+		
+		if (tree1.size() > 0) {
+			BTNode<Type> root_tree1 = checkPosition(tree1.root());
+			point.setLeft(root_tree1);
+			root_tree1.setParent(point);
+		}
+		if (tree2.size() > 0) {
+			BTNode<Type> root_tree2 = checkPosition(tree2.root());
+			point.setRight(root_tree2);
+			root_tree2.setParent(point);
+		}  
+	}
+	
+	/* MÉTODOS DE CAMINHAMENTO */
+	
+	/** Adiciona em uma lista de nós (NodePositionList) os elementos da árvore em percurso pré-ordem. */
+	protected void preOrderPosition(BTNode<Type> node, NodePositionList<BTNode<Type>> list) {
+		
+	}
+	
+	/* MÉTODOS AUXILIARES */
+	
+	/** Cria e retorna um BTNode */
+	protected BTNode<Type> createNode(Type element, BTNode<Type> left, BTNode<Type> right, BTNode<Type> parent) {
+		return new BTNode<Type>(element, left, right, parent);
+	}
 
 	/**
 	 * Verifica se a posição de um dado BTNode é válida
