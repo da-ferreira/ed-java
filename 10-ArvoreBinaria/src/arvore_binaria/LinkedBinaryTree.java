@@ -13,8 +13,6 @@ import lista_de_nodos.NodePositionList;
  * public Iterable<BTNode<Type>> positions()
  *
  * public Iterator<Type> iterator()
- * 
- * public Type remove(BTNode<Type> node) throws InvalidPositionException
  */
 
 /**
@@ -207,11 +205,67 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		return point.getRight();
 	}
 	
+	/**
+	 * Remove um nó com zero ou um filho.
+	 * @param node: A posição do nó a ser removida.
+	 * @return O elemento do nó removido.
+	 * @throws InvalidPositionException: Caso o nó passado seja inválido ou ele tenha 2 filhos.
+	 */
 	public Type remove(BTNode<Type> node) throws InvalidPositionException {
-		return null;
+		BTNode<Type> point = checkPosition(node);
+		
+		if (point.getLeft() != null && point.getRight() != null)  // O nó tem dois filhos?
+			throw new InvalidPositionException("It is not possible to remove a node with two children");
+		
+		BTNode<Type> childrenPoint;  // filho de point, se houver
+		
+		if (point.getLeft() != null) {
+			childrenPoint = point.getLeft();
+		}
+		else if (point.getRight() != null) {
+			childrenPoint = point.getRight();
+		}
+		else {
+			childrenPoint = null;  // point é folha.
+		}
+		
+		/* Se o nó passado for a raíz, e se a raíz tiver algum filho,
+		 * coloca como pai desse filho null, porque ele vai ocupar o lugar
+		 * da raíz e a raíz nao tem pai.
+		 * 
+		 * Se o nó passado não for a raíz: 
+		 * 1. Pega o pai desse nó (parentPoint).
+		 * 2. Verifica se o nó passado é o filho esquerdo de parentPoint,
+		 * 	  se for, coloca como filho de parentPoint o filho do nó passado (point). 
+		 * 3. Se não é filho esquerdo, é filho direito, então faz o mesmo passo 2, 
+		 *    só que do lado direito.
+		 * 4. Se o nó passado tiver algum filho, ou seja, o filho dele for diferente de null,
+		 *    coloca como seu pai o pai do nó passado (point).
+		 */
+		
+		if (point == root) {
+			if (childrenPoint != null)
+				childrenPoint.setParent(null);
+			
+			root = childrenPoint;
+		}
+		else {
+			BTNode<Type> parentPoint = point.getParent();
+			
+			if (point == parentPoint.getLeft()) {
+				parentPoint.setLeft(childrenPoint);
+			}
+			else {
+				parentPoint.setRight(childrenPoint);
+			}
+			
+			if (childrenPoint != null)
+				childrenPoint.setParent(parentPoint);
+		}
+		
+		size--;
+		return point.element();
 	}
-	
-	
 
 	/**
 	 * Verifica se a posição de um dado BTNode é válida
