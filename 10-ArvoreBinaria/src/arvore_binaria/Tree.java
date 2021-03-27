@@ -20,8 +20,8 @@ public interface Tree<Type> extends Iterable<Type> {
 	
 	/**
 	 * Substitui um elemento armazenado em um dado nó.
-	 * @param node: A posição do nó
-	 * @param newElement: O elemento.
+	 * @param node A posição do nó
+	 * @param newElement O elemento.
 	 * @return O antigo elemento do nó.
 	 * @throws InvalidPositionException: Caso a posicao do elemento (node) seja inválida.
 	 */
@@ -34,7 +34,7 @@ public interface Tree<Type> extends Iterable<Type> {
 	public BTNode<Type> root() throws EmptyTreeException;
 	
 	/**
-	 * @param node: A posição do nó que que se deseja obter o pai.
+	 * @param node A posição do nó que que se deseja obter o pai.
 	 * @return O pai do nó passado (node).
 	 * @throws InvalidPositionException: Caso a posicao do elemento (node) seja inválida.
 	 * @throws BoundaryViolationException: Caso a posição do nó passado seja a raíz da árvore.
@@ -42,28 +42,28 @@ public interface Tree<Type> extends Iterable<Type> {
 	public BTNode<Type> parent(BTNode<Type> node) throws InvalidPositionException, BoundaryViolationException;
 	
 	/**
-	 * @param node: A posição do nó que que se deseja obter os filhos. 
+	 * @param node A posição do nó que que se deseja obter os filhos. 
 	 * @return Uma coleção iterável dos filhos de um dado nó.
 	 * @throws InvalidPositionException: Caso a posicao do elemento (node) seja inválida.
 	 */
 	public Iterable<BTNode<Type>> children(BTNode<Type> node) throws InvalidPositionException;
 	
 	/**
-	 * @param node: A posição do nó que que se deseja saber se é folha (externo).
+	 * @param node A posição do nó que que se deseja saber se é folha (externo).
 	 * @return true se um dado nó é externo (folha), do contrário, retorna false.
 	 * @throws InvalidPositionException: Caso a posicao do elemento (node) seja inválida.
 	 */
 	public boolean isExternal(BTNode<Type> node) throws InvalidPositionException;
 	
 	/**
-	 * @param node: A posição do nó que que se deseja saber se não é folha (interno).
+	 * @param node A posição do nó que que se deseja saber se não é folha (interno).
 	 * @return true se um dado nó é interno (não é folha), do contrário, retorna false.
 	 * @throws InvalidPositionException: Caso a posicao do elemento (node) seja inválida.
 	 */
 	public boolean isInternal(BTNode<Type> node) throws InvalidPositionException;
 	
 	/**
-	 * @param node: A posição do nó que que se deseja saber se é raiz da arvore.
+	 * @param node A posição do nó que que se deseja saber se é raiz da arvore.
 	 * @return true se um dado nó é raiz, do contrário, retorna false.
 	 * @throws InvalidPositionException: Caso a posicao do elemento (node) seja inválida.
 	 */

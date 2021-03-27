@@ -10,8 +10,7 @@ import exceptions.NonEmptyTreeException;
 import lista_de_nodos.NodePositionList;
 
 /*
- * positionsInorder()
- * public Iterator<Type> iterator()
+ * public LinkedBinaryTree<Type> buildExpression(String expression)
  */
 
 /**
@@ -159,7 +158,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	/* MÉTODOS ADICIONAIS */
 	
 	/**
-	 * @param node: Nó que se deseja saber seu irmão (esquerdo ou direito).
+	 * @param node Nó que se deseja saber seu irmão (esquerdo ou direito).
 	 * @return Retorna um irmão de um dado nó.
 	 * @throws InvalidPositionException: Caso a posição (node) seja inválida.
 	 * @throws BoundaryViolationException: Caso o nó não tenha irmão.
@@ -187,7 +186,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	
 	/**
 	 * Adiciona uma raíz em uma árvore binária vazia.
-	 * @param element: Raíz
+	 * @param element Raíz
 	 * @return O nó que contem a raíz.
 	 * @throws NonEmptyTreeException: Caso a árvore não esteja vazia.
 	 */
@@ -202,8 +201,8 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	
 	/**
 	 * Insere um elemento na esquerda de uma dado nó.
-	 * @param node: O nó que se deseja inserir o elemento a esquerda.
-	 * @param element: O elemento que se deseja inserir.
+	 * @param node O nó que se deseja inserir o elemento a esquerda.
+	 * @param element O elemento que se deseja inserir.
 	 * @return O nó do elemento inserido.
 	 * @throws InvalidPositionException: Caso o nó passado já tenha um filho a esquerda.
 	 */
@@ -220,8 +219,8 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	
 	/**
 	 * Insere um elemento na direita de uma dado nó.
-	 * @param node: O nó que se deseja inserir o elemento a direita.
-	 * @param element: O elemento que se deseja inserir.
+	 * @param node O nó que se deseja inserir o elemento a direita.
+	 * @param element O elemento que se deseja inserir.
 	 * @return O nó do elemento inserido.
 	 * @throws InvalidPositionException: Caso o nó passado já tenha um filho a direita.
 	 */
@@ -238,7 +237,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	
 	/**
 	 * Remove um nó com zero ou um filho.
-	 * @param node: A posição do nó a ser removida.
+	 * @param node A posição do nó a ser removida.
 	 * @return O elemento do nó removido.
 	 * @throws InvalidPositionException: Caso o nó passado seja inválido ou ele tenha 2 filhos.
 	 */
@@ -300,9 +299,9 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	
 	/**
 	 * Conecta duas árvore para serem subárvores de um nodo externo.
-	 * @param node: Nó externo
-	 * @param tree1: Primeira árvore (esquerda). 
-	 * @param tree2: Segunda árvore (direita).
+	 * @param node Nó externo
+	 * @param tree1 Primeira árvore (esquerda). 
+	 * @param tree2 Segunda árvore (direita).
 	 * @throws InvalidPositionException: Caso o nó passado seja inválido ou ele não seja externo (folha).
 	 */
 	public void attach(BTNode<Type> node, LinkedBinaryTree<Type> tree1, LinkedBinaryTree<Type> tree2) throws InvalidPositionException {
@@ -360,6 +359,20 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		list.addLast(node);
 	}
 	
+	/* MÉTODOS EXTRAS */
+	
+	/**
+	 * Constroi uma árvore binária que representa a expressão aritmética "expression",
+	 * quando se caminha pela árvore em percurso em-ordem.
+	 * @param expression A expressão aritmética totalmente parentizada, com variavel, operador e simbolo de parenteses.
+	 * @return A árvore binária que representa a expressão.
+	 */
+	public LinkedBinaryTree<Type> buildExpression(String expression) {
+		NodePositionList<LinkedBinaryTree<Type>> pilha = new NodePositionList<LinkedBinaryTree<Type>>();  // Pilha representada como uma lista de nós
+		
+		return null;
+	}
+	
 
 	/* MÉTODOS AUXILIARES */
 	
@@ -370,7 +383,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 
 	/**
 	 * Verifica se a posição de um dado BTNode é válida
-	 * @param node: O nó a ser verificado
+	 * @param node O nó a ser verificado
 	 * @return O nó (em BTNode)
 	 * @throws InvalidPositionException: Caso a posição, de fato, for inválida.
 	 */

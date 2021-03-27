@@ -12,7 +12,7 @@ import exceptions.InvalidPositionException;
 public interface BinaryTree<Type> extends Tree<Type> {
 	/**
 	 * Retorna o filho da esquerda do nó.
-	 * @param node: O nó que se deseja obter o filho da esquerda.
+	 * @param node O nó que se deseja obter o filho da esquerda.
 	 * @return O filho da esquerda.
 	 * @throws InvalidPositionException: Caso a posição (node) seja inválida.
 	 * @throws BoundaryViolationException: Caso node não tiver filho a esquerda.
@@ -21,7 +21,7 @@ public interface BinaryTree<Type> extends Tree<Type> {
 	
 	/**
 	 * Retorna o filho da direita do nó.
-	 * @param node: O nó que se deseja obter o filho da direita.
+	 * @param node O nó que se deseja obter o filho da direita.
 	 * @return O filho da direita.
 	 * @throws InvalidPositionException: Caso a posição (node) seja inválida.
 	 * @throws BoundaryViolationException: Caso node não tiver filho a direita.
@@ -29,14 +29,14 @@ public interface BinaryTree<Type> extends Tree<Type> {
 	public BTNode<Type> right(BTNode<Type> node) throws InvalidPositionException, BoundaryViolationException;
 	
 	/**
-	 * @param node: O nó que se deseja saber se tem filho a esquerda.
+	 * @param node O nó que se deseja saber se tem filho a esquerda.
 	 * @return Retorna true se node tiver filho a esquerda; do contrário, retorna false.
 	 * @throws InvalidPositionException: Caso a posição (node) seja inválida.
 	 */
 	public boolean hasLeft(BTNode<Type> node) throws InvalidPositionException;
 	
 	/**
-	 * @param node: O nó que se deseja saber se tem filho a direita.
+	 * @param node O nó que se deseja saber se tem filho a direita.
 	 * @return Retorna true se node tiver filho a direita; do contrário, retorna false.
 	 * @throws InvalidPositionException: Caso a posição (node) seja inválida.
 	 */

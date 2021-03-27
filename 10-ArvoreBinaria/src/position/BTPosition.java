@@ -6,7 +6,7 @@ import arvore_binaria.BTNode;
 public interface BTPosition<Type> extends Position<Type> {
 	/**
 	 * Define o elemento desta posição.
-	 * @param newElement: o elemento
+	 * @param newElement o elemento
 	 */
 	public void setElement(Type newElement);
 	
@@ -15,7 +15,7 @@ public interface BTPosition<Type> extends Position<Type> {
 	
 	/**
 	 * Define o filho da esquerda dessa posição
-	 * @param left: o filho.
+	 * @param left o filho.
 	 */
 	public void setLeft(BTNode<Type> left);
 	
@@ -24,7 +24,7 @@ public interface BTPosition<Type> extends Position<Type> {
 	
 	/**
 	 * Define o filho da direita dessa posição
-	 * @param right: o filho.
+	 * @param right o filho.
 	 */
 	public void setRight(BTNode<Type> right);
 	
@@ -33,7 +33,7 @@ public interface BTPosition<Type> extends Position<Type> {
 	
 	/**
 	 * Define o pai desta posição
-	 * @param parent: o filho.
+	 * @param parent o filho.
 	 */
 	public void setParent(BTNode<Type> parent);
 }
