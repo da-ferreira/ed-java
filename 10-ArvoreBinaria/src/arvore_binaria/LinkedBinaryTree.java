@@ -9,10 +9,6 @@ import exceptions.InvalidPositionException;
 import exceptions.NonEmptyTreeException;
 import lista_de_nodos.NodePositionList;
 
-/*
- * public LinkedBinaryTree<Type> buildExpression(String expression)
- */
-
 /**
  * Classe que implementa um árvore binária, onde cada nó da árvore pode ter até 2 filhos.
  * @author david-ferreira
@@ -367,10 +363,27 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	 * @param expression A expressão aritmética totalmente parentizada, com variavel, operador e simbolo de parenteses.
 	 * @return A árvore binária que representa a expressão.
 	 */
+	@SuppressWarnings("unchecked")
 	public LinkedBinaryTree<Type> buildExpression(String expression) {
-		NodePositionList<LinkedBinaryTree<Type>> pilha = new NodePositionList<LinkedBinaryTree<Type>>();  // Pilha representada como uma lista de nós
+		NodePositionList<LinkedBinaryTree<Character>> pilha = new NodePositionList<LinkedBinaryTree<Character>>();  // Pilha representada como uma lista de nós
 		
-		return null;
+		for (int i=0; i < expression.length(); i++) {
+			if (isNumeric(expression.charAt(i)) || isOperator(expression.charAt(i))) {
+				LinkedBinaryTree<Character> tree = new LinkedBinaryTree<Character>();
+				tree.addRoot(expression.charAt(i));
+				pilha.addLast(tree);
+			}
+			else if (expression.charAt(i) == ')') {
+				LinkedBinaryTree<Character> tree2 = pilha.remove(pilha.last());  // Representa a segunda variável numa expressão simples
+				LinkedBinaryTree<Character> tree = pilha.remove(pilha.last());   // Representa o operador numa expressão simples
+				LinkedBinaryTree<Character> tree1 = pilha.remove(pilha.last());  // Representa a primeira variável numa expressão simples
+				
+				tree.attach(tree.root(), tree1, tree2);
+				pilha.addLast(tree);
+			}
+		}
+		
+		return (LinkedBinaryTree<Type>) pilha.last();
 	}
 	
 
@@ -393,4 +406,16 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		
 		return (BTNode<Type>) node;
 	}
+	
+	/** Verifica se um String é um digito 0-9. */
+	private boolean isNumeric(char digit) {
+		String digit2 = Character.toString(digit);
+		return digit2.matches("[0-9]");
+	}
+	
+	/** Verifica se uma String é um operador (+, -, *, /)*/
+	private boolean isOperator(char str) {
+		return str == '+' || str == '-' || str == '*' || str == '/';
+	}
 }
+      
