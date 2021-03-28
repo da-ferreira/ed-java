@@ -385,6 +385,27 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		
 		return (LinkedBinaryTree<Type>) pilha.last();
 	}
+
+	/** Avalia a expressão numa árvore binária, percorrendo ela em percurso pós-ordem,
+	 *  fazendo as operações aritmeticas simples.
+	 *  @return Retorna o resultado da expressão presente na árvore. */
+	public int evaluateExpression(LinkedBinaryTree<Type> tree, BTNode<Type> node) {
+		return 0;
+	}
+	
+	protected void eulerTour(LinkedBinaryTree<Type> tree, BTNode<Type> node) {
+		System.out.print(node.element());
+		
+		if (hasLeft(node))
+			eulerTour(tree, left(node));  // Chama recursivamente a sub-arvore da esquerda
+		
+		System.out.print(node.element());
+		
+		if (hasRight(node))
+			eulerTour(tree, right(node));  // Chama recursivamente a sub-arvore da direita
+		
+		System.out.print(node.element());
+	}
 	
 
 	/* MÉTODOS AUXILIARES */
