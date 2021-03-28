@@ -388,11 +388,34 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 
 	/** Avalia a expressão numa árvore binária, percorrendo ela em percurso pós-ordem,
 	 *  fazendo as operações aritmeticas simples.
-	 *  @return Retorna o resultado da expressão presente na árvore. */
+	 *  @return O resultado da expressão presente na árvore. */
 	public int evaluateExpression(LinkedBinaryTree<Type> tree, BTNode<Type> node) {
-		return 0;
+		if (isInternal(node)) {
+			char operator = (char) node.element();
+			
+			int x = evaluateExpression(tree, left(node));
+			int y = evaluateExpression(tree, right(node));
+			
+			if (operator == '+') {
+				return x + y;
+			}
+			else if (operator == '-') {
+				return x - y;
+			}
+			else if (operator == '*') {
+				return x * y;
+			}
+			else { 
+				return x / y;
+			}
+		}
+		
+		return (int) node.element();
 	}
 	
+	/** Basicamente, o caminhamento de Euler é um passeio pela árvore binária, onde
+	 *  cada nó da árvore é visitado 3 vezes, numa espécie de junção dos caminhamento
+	 *  pré, em e pós-ordem. */
 	protected void eulerTour(LinkedBinaryTree<Type> tree, BTNode<Type> node) {
 		System.out.print(node.element());
 		
