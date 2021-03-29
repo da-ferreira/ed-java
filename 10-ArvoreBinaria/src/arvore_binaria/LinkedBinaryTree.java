@@ -510,6 +510,24 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		
 		return expressao;
 	}
+	
+	/** Representacao de uma lista em String com o percurso pré-ordem. */
+	public String toStringPreOrder() {
+		Iterable<BTNode<Type>> positions = positions();		
+		return toStringModel(positions);
+	}
+
+	/** Representacao de uma lista em String com o percurso em-ordem. */
+	public String toStringInOrder() {
+		Iterable<BTNode<Type>> positions = positionsInOrder();		
+		return toStringModel(positions);
+	}
+	
+	/** Representacao de uma lista em String com o percurso pós-ordem. */
+	public String toStringPostOrder() {
+		Iterable<BTNode<Type>> positions = positionsPostOrder();		
+		return toStringModel(positions);
+	}
 
 	/* MÉTODOS AUXILIARES */
 	
@@ -529,6 +547,18 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 			throw new InvalidPositionException("The node is invalid!");
 		
 		return (BTNode<Type>) node;
+	}
+	
+	private String toStringModel(Iterable<BTNode<Type>> positions) {
+		if (isEmpty())
+			return "[]";
+		
+		String represent = "[";
+		
+		for (BTNode<Type> element : positions)
+			represent += element.element() + ", ";
+		
+		return represent.substring(0, represent.length() - 2) + "]";
 	}
 	
 	/** Verifica se um String é um digito 0-9. */

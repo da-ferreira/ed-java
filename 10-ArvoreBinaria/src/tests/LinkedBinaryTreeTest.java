@@ -10,7 +10,11 @@ import arvore_binaria.LinkedBinaryTree;
 class LinkedBinaryTreeTest {
 	@Test
 	void test() {
-		fail("Not yet implemented");
+		LinkedBinaryTree<Character> tree = criarArvoreBinaria();
+		
+		System.out.println(tree.toStringPreOrder());
+		System.out.println(tree.toStringInOrder());
+		System.out.println(tree.toStringPostOrder());
 	}
 	
 	/** Implementação da árvore binária que está no slide "Tarefa 16 - TAD-Árvore Binária.pptx", pág. 8. */
@@ -18,7 +22,6 @@ class LinkedBinaryTreeTest {
 		LinkedBinaryTree<Character> tree = new LinkedBinaryTree<Character>();
 		
 		// (elemento, esquerda, direita, pai)
-		
 		BTNode<Character> raiz;
 		BTNode<Character> a = new BTNode<Character>('/', null, null, null);
 		BTNode<Character> b = new BTNode<Character>('+', null, null, null);
