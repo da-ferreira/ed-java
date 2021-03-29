@@ -416,7 +416,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	/** Basicamente, o caminhamento de Euler é um passeio pela árvore binária, onde
 	 *  cada nó da árvore é visitado 3 vezes, numa espécie de junção dos caminhamento
 	 *  pré, em e pós-ordem. */
-	protected void eulerTour(LinkedBinaryTree<Type> tree, BTNode<Type> node) {
+	public void eulerTour(LinkedBinaryTree<Type> tree, BTNode<Type> node) {
 		System.out.print(node.element());
 		
 		if (hasLeft(node))
@@ -429,6 +429,44 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		
 		System.out.print(node.element());
 	}
+	
+	/**
+	 * @param node Nó que iniciará a contagem.
+	 * @return A quantidade de nós são esquerdos e externos em uma árvore binária. 
+	 * @throws BoundaryViolationException: Caso a árvore esteja vazia ou com 1 elemento (raíz não é esquerdo nem direito).
+	 */
+	public int accountLeftExternalNodes(BTNode<Type> node) throws BoundaryViolationException {
+		if (this.size <= 1)
+			throw new BoundaryViolationException("Não há contagem de nós com uma árvore de tamanho menor que 2.");
+		
+		int cont = 0;
+		
+		if (hasLeft(node)) {
+			if (isExternal(left(node))) {
+				cont += 1;
+			}
+			else {
+				accountLeftExternalNodes(left(node));
+			}
+		}
+		
+		if (hasRight(node))
+			accountLeftExternalNodes(right(node));
+		
+		return cont;
+	}
+	
+	/**
+	 * @param node Nó que iniciará a contagem.
+	 * @return A quantidade de nós são direitos e externos em uma árvore binária. 
+	 * @throws BoundaryViolationException: Caso a árvore esteja vazia ou com 1 elemento (raíz não é esquerdo nem direito).
+	 */
+	public int accountRightExternalNodes(BTNode<Type> node) throws BoundaryViolationException {
+		return 0;
+	}
+
+	
+	
 	
 
 	/* MÉTODOS AUXILIARES */
