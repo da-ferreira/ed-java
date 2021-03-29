@@ -414,25 +414,28 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	}
 	
 	/** Basicamente, o caminhamento de Euler é um passeio pela árvore binária, onde
-	 *  cada nó da árvore é visitado 3 vezes, numa espécie de junção dos caminhamento
-	 *  pré, em e pós-ordem. */
-	public void eulerTour(LinkedBinaryTree<Type> tree, BTNode<Type> node) {
-		System.out.print(node.element());
+	 *  cada nó da árvore é visitado 3 vezes, numa espécie de junção dos caminhamento pré, em e pós-ordem. 
+	 *  @return A string com o caminho de Euler. */
+	public String eulerTour(LinkedBinaryTree<Type> tree, BTNode<Type> node) {
+		String percurso = "";
+		percurso += node.element();
 		
 		if (hasLeft(node))
 			eulerTour(tree, left(node));  // Chama recursivamente a sub-arvore da esquerda
 		
-		System.out.print(node.element());
+		percurso += node.element();
 		
 		if (hasRight(node))
 			eulerTour(tree, right(node));  // Chama recursivamente a sub-arvore da direita
 		
-		System.out.print(node.element());
+		percurso += node.element();
+		
+		return percurso;
 	}
 	
 	/**
 	 * @param node Nó que iniciará a contagem.
-	 * @return A quantidade de nós são esquerdos e externos em uma árvore binária. 
+	 * @return A quantidade de nós que são esquerdos e externos em uma árvore binária. 
 	 * @throws BoundaryViolationException: Caso a árvore esteja vazia ou com 1 elemento (raíz não é esquerdo nem direito).
 	 */
 	public int accountLeftExternalNodes(BTNode<Type> node) throws BoundaryViolationException {
@@ -458,16 +461,55 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	
 	/**
 	 * @param node Nó que iniciará a contagem.
-	 * @return A quantidade de nós são direitos e externos em uma árvore binária. 
+	 * @return A quantidade de nós que são direitos e externos em uma árvore binária. 
 	 * @throws BoundaryViolationException: Caso a árvore esteja vazia ou com 1 elemento (raíz não é esquerdo nem direito).
 	 */
 	public int accountRightExternalNodes(BTNode<Type> node) throws BoundaryViolationException {
-		return 0;
+		if (this.size <= 1)
+			throw new BoundaryViolationException("Não há contagem de nós com uma árvore de tamanho menor que 2.");
+		
+		int cont = 0;
+		
+		if (hasRight(node)) {
+			if (isExternal(right(node))) {
+				cont += 1;
+			}
+			else {
+				accountRightExternalNodes(right(node));
+			}
+		}
+		
+		if (hasLeft(node))
+			accountRightExternalNodes(left(node));
+		
+		return cont;
 	}
-
 	
-	
-	
+	/** @return A expressão aritmérica parentizada que está presente na árvore binária. */
+	public String printExpression(BTNode<Type> node) {
+		String expressao = "";
+		
+		if (isInternal(node))
+			expressao += "(";
+		
+		if (hasLeft(node))
+			printExpression(left(node));
+			
+		if (isInternal(node)) {  // Pegando o operador.
+			expressao += node.element();
+		}
+		else {  // Pegando a variavel.
+			expressao += node.element();
+		}
+		
+		if (hasRight(node))
+			printExpression(right(node));
+		
+		if (isInternal(node))
+			expressao += ")";
+		
+		return expressao;
+	}
 
 	/* MÉTODOS AUXILIARES */
 	
