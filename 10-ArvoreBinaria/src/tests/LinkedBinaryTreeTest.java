@@ -19,7 +19,7 @@ class LinkedBinaryTreeTest {
 		
 		// (elemento, esquerda, direita, pai)
 		
-        BTNode<Character> raiz;
+		BTNode<Character> raiz;
 		BTNode<Character> a = new BTNode<Character>('/', null, null, null);
 		BTNode<Character> b = new BTNode<Character>('+', null, null, null);
 		BTNode<Character> c = new BTNode<Character>('*', null, null, null);
