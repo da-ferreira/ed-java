@@ -12,9 +12,12 @@ class LinkedBinaryTreeTest {
 	void test() {
 		LinkedBinaryTree<Character> tree = criarArvoreBinaria();
 		
-		System.out.println(tree.toStringPreOrder());
-		System.out.println(tree.toStringInOrder());
-		System.out.println(tree.toStringPostOrder());
+		assertEquals(tree.toStringPreOrder(), "[-, /, *, +, 3, 1, 3, +, -, 9, 5, 2, +, *, 3, -, 7, 4, 6]", "Pré-ordem da árvore binária tree.");
+		assertEquals(tree.toStringInOrder(), "[3, +, 1, *, 3, /, 9, -, 5, +, 2, -, 3, *, 7, -, 4, +, 6]", "Em-ordem da árvore binária tree.");
+		assertEquals(tree.toStringPostOrder(), "[3, 1, +, 3, *, 9, 5, -, 2, +, /, 3, 7, 4, -, *, 6, +, -]", "Pós-ordem da árvore binária tree.");
+		assertFalse(tree.isEmpty());
+		
+		
 	}
 	
 	/** Implementação da árvore binária que está no slide "Tarefa 16 - TAD-Árvore Binária.pptx", pág. 8. */
