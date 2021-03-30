@@ -11,7 +11,6 @@ class LinkedBinaryTreeTest {
 		LinkedBinaryTree<String> tree = new LinkedBinaryTree<String>();
 		tree = tree.buildExpression("((((3+1)*3)/((9-5)+2))-((3*(7-4))+6))");
 		
-		
 		assertEquals("[-, /, *, +, 3, 1, 3, +, -, 9, 5, 2, +, *, 3, -, 7, 4, 6]", tree.toStringPreOrder(), "Pré-ordem da árvore binária tree.");
 		assertEquals("[3, +, 1, *, 3, /, 9, -, 5, +, 2, -, 3, *, 7, -, 4, +, 6]", tree.toStringInOrder(), "Em-ordem da árvore binária tree.");
 		assertEquals("[3, 1, +, 3, *, 9, 5, -, 2, +, /, 3, 7, 4, -, *, 6, +, -]", tree.toStringPostOrder(), "Pós-ordem da árvore binária tree.");
