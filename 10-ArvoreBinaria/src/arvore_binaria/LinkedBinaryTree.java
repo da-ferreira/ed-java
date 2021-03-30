@@ -24,7 +24,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	}
 	
 	public int size() {
-		return size;
+		return this.size;
 	}
 	
 	public boolean isEmpty() {
@@ -358,75 +358,79 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	/* MÉTODOS EXTRAS */
 	
 	/**
-	 * Constroi uma árvore binária que representa a expressão aritmética "expression",
-	 * quando se caminha pela árvore em percurso em-ordem.
+	 * Constroi uma árvore binária (a árvore que chama o método tem que estar vazia)
+	 * que representa a expressão aritmética "expression", quando se caminha pela árvore em percurso em-ordem.
 	 * @param expression A expressão aritmética totalmente parentizada, com variavel, operador e simbolo de parenteses.
-	 * @return A árvore binária que representa a expressão.
+	 * @return A árvore formada.
 	 */
-	@SuppressWarnings("unchecked")
-	public LinkedBinaryTree<Type> buildExpression(String expression) {
-		NodePositionList<LinkedBinaryTree<Character>> pilha = new NodePositionList<LinkedBinaryTree<Character>>();  // Pilha representada como uma lista de nós
+	public LinkedBinaryTree<String> buildExpression(String expression) {
+		NodePositionList<LinkedBinaryTree<String>> pilha = new NodePositionList<LinkedBinaryTree<String>>();  // Pilha representada como uma lista de nós
 		
 		for (int i=0; i < expression.length(); i++) {
 			if (isNumeric(expression.charAt(i)) || isOperator(expression.charAt(i))) {
-				LinkedBinaryTree<Character> tree = new LinkedBinaryTree<Character>();
-				tree.addRoot(expression.charAt(i));
+				LinkedBinaryTree<String> tree = new LinkedBinaryTree<String>();
+				tree.addRoot("" + expression.charAt(i));
 				pilha.addLast(tree);
 			}
 			else if (expression.charAt(i) == ')') {
-				LinkedBinaryTree<Character> tree2 = pilha.remove(pilha.last());  // Representa a segunda variável numa expressão simples
-				LinkedBinaryTree<Character> tree = pilha.remove(pilha.last());   // Representa o operador numa expressão simples
-				LinkedBinaryTree<Character> tree1 = pilha.remove(pilha.last());  // Representa a primeira variável numa expressão simples
+				LinkedBinaryTree<String> tree2 = pilha.remove(pilha.last());  // Representa a segunda variável numa expressão simples
+				LinkedBinaryTree<String> tree = pilha.remove(pilha.last());   // Representa o operador numa expressão simples
+				LinkedBinaryTree<String> tree1 = pilha.remove(pilha.last());  // Representa a primeira variável numa expressão simples
 				
 				tree.attach(tree.root(), tree1, tree2);
 				pilha.addLast(tree);
 			}
 		}
-		
-		return (LinkedBinaryTree<Type>) pilha.last();
+		return pilha.remove(pilha.last());
 	}
 
 	/** Avalia a expressão numa árvore binária, percorrendo ela em percurso pós-ordem,
 	 *  fazendo as operações aritmeticas simples.
 	 *  @return O resultado da expressão presente na árvore. */
-	public int evaluateExpression(LinkedBinaryTree<Type> tree, BTNode<Type> node) {
-		if (isInternal(node)) {
-			char operator = (char) node.element();
+	public int evaluateExpression(LinkedBinaryTree<String> tree, BTNode<String> node) {
+		int result = 0;
+		
+		if (tree.isInternal(node)) {
+			String operator = node.element();
 			
-			int x = evaluateExpression(tree, left(node));
-			int y = evaluateExpression(tree, right(node));
+			int x = evaluateExpression(tree, tree.left(node));
+			int y = evaluateExpression(tree, tree.right(node));
 			
-			if (operator == '+') {
-				return x + y;
+			if (operator == "+") {
+				result += (x + y);
+				return result;
 			}
-			else if (operator == '-') {
-				return x - y;
+			else if (operator == "-") {
+				result +=  (x - y);
+				return result;
 			}
-			else if (operator == '*') {
-				return x * y;
+			else if (operator == "*") {
+				result += (x * y);
+				return result;
 			}
-			else { 
-				return x / y;
+			else {
+				result += (x / y);
+				return result;
 			}
 		}
 		
-		return (int) node.element();
+		return Integer.parseInt(node.element());
 	}
 	
 	/** Basicamente, o caminhamento de Euler é um passeio pela árvore binária, onde
 	 *  cada nó da árvore é visitado 3 vezes, numa espécie de junção dos caminhamento pré, em e pós-ordem. 
 	 *  @return A string com o caminho de Euler. */
-	public String eulerTour(LinkedBinaryTree<Type> tree, BTNode<Type> node) {
+	public String eulerTour(BTNode<Type> node) {
 		String percurso = "";
 		percurso += node.element();
 		
 		if (hasLeft(node))
-			eulerTour(tree, left(node));  // Chama recursivamente a sub-arvore da esquerda
+			percurso += eulerTour(left(node));  // Chama recursivamente a sub-arvore da esquerda
 		
 		percurso += node.element();
 		
 		if (hasRight(node))
-			eulerTour(tree, right(node));  // Chama recursivamente a sub-arvore da direita
+			percurso += eulerTour(right(node));  // Chama recursivamente a sub-arvore da direita
 		
 		percurso += node.element();
 		
@@ -439,9 +443,6 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	 * @throws BoundaryViolationException: Caso a árvore esteja vazia ou com 1 elemento (raíz não é esquerdo nem direito).
 	 */
 	public int accountLeftExternalNodes(BTNode<Type> node) throws BoundaryViolationException {
-		if (this.size <= 1)
-			throw new BoundaryViolationException("Não há contagem de nós com uma árvore de tamanho menor que 2.");
-		
 		int cont = 0;
 		
 		if (hasLeft(node)) {
@@ -449,12 +450,12 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 				cont += 1;
 			}
 			else {
-				accountLeftExternalNodes(left(node));
+				cont += accountLeftExternalNodes(left(node));
 			}
 		}
 		
 		if (hasRight(node))
-			accountLeftExternalNodes(right(node));
+			cont += accountLeftExternalNodes(right(node));
 		
 		return cont;
 	}
@@ -465,9 +466,6 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	 * @throws BoundaryViolationException: Caso a árvore esteja vazia ou com 1 elemento (raíz não é esquerdo nem direito).
 	 */
 	public int accountRightExternalNodes(BTNode<Type> node) throws BoundaryViolationException {
-		if (this.size <= 1)
-			throw new BoundaryViolationException("Não há contagem de nós com uma árvore de tamanho menor que 2.");
-		
 		int cont = 0;
 		
 		if (hasRight(node)) {
@@ -475,12 +473,12 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 				cont += 1;
 			}
 			else {
-				accountRightExternalNodes(right(node));
+				cont += accountRightExternalNodes(right(node));
 			}
 		}
 		
 		if (hasLeft(node))
-			accountRightExternalNodes(left(node));
+			cont += accountRightExternalNodes(left(node));
 		
 		return cont;
 	}
@@ -493,7 +491,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 			expressao += "(";
 		
 		if (hasLeft(node))
-			printExpression(left(node));
+			expressao += printExpression(left(node));
 			
 		if (isInternal(node)) {  // Pegando o operador.
 			expressao += node.element();
@@ -503,7 +501,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		}
 		
 		if (hasRight(node))
-			printExpression(right(node));
+			expressao += printExpression(right(node));
 		
 		if (isInternal(node))
 			expressao += ")";
