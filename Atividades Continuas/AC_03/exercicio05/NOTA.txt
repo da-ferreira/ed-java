@@ -1,0 +1,2 @@
+As implementações de a-k, da questão 5, está na classe Java LinkedBinaryTree na "arvore_binaria".  
+A implementação f está na classe Java LinkedBTSearch na pasta "avore_binaria_de_pesquisa".
