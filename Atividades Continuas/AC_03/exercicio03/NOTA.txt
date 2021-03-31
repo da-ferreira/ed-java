@@ -1,0 +1,2 @@
+O métodos a, b, c, d, e, f da questão 3 estão dentro da classe Java LinkedTree,  
+dentro da pasta "arvore_generica".
