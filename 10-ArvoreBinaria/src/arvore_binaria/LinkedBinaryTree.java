@@ -365,12 +365,14 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	 */
 	public LinkedBinaryTree<String> buildExpression(String expression) {
 		NodePositionList<LinkedBinaryTree<String>> pilha = new NodePositionList<LinkedBinaryTree<String>>();  // Pilha representada como uma lista de nós
+		int sizeOfTree = 0;
 		
 		for (int i=0; i < expression.length(); i++) {
 			if (isNumeric(expression.charAt(i)) || isOperator(expression.charAt(i))) {
 				LinkedBinaryTree<String> tree = new LinkedBinaryTree<String>();
 				tree.addRoot("" + expression.charAt(i));
 				pilha.addLast(tree);
+				sizeOfTree++;
 			}
 			else if (expression.charAt(i) == ')') {
 				LinkedBinaryTree<String> tree2 = pilha.remove(pilha.last());  // Representa a segunda variável numa expressão simples
@@ -381,7 +383,10 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 				pilha.addLast(tree);
 			}
 		}
-		return pilha.remove(pilha.last());
+		
+		LinkedBinaryTree<String> treeReturn = pilha.remove(pilha.last());
+		treeReturn.size = sizeOfTree;
+		return treeReturn;
 	}
 
 	/** Avalia a expressão numa árvore binária, percorrendo ela em percurso pós-ordem,
