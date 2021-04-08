@@ -6,6 +6,8 @@ import java.util.Comparator;
 import commons.DefaultComparator;
 import commons.Entry;
 import commons.PriorityQueue;
+import exceptions.EmptyPriorityQueueException;
+import exceptions.InvalidKeyException;
 import list_of_nodes.NodePositionList;
 
 public class SortedListPriorityQueue<Key, Value> implements PriorityQueue<Key, Value> {
@@ -58,15 +60,16 @@ public class SortedListPriorityQueue<Key, Value> implements PriorityQueue<Key, V
 		this.comparator = comparator;
 	}
 	
-	/*
-	 
-	 ve se a exceção deve ser criada.
-	 
+	/**
+	 * Define o comparador para fila de prioridades.
+	 * @throws IllegalStateException: Caso a fila de prioridades não estiver vazia.
+	 */
 	public void setComparator(Comparator<Key> comparator) throws IllegalStateException {
+		if (! isEmpty())
+			throw new IllegalStateException("Priority queue is not empty");
 		
+		this.comparator = comparator;
 	}
-	
-	*/
 	
 	public int size() {
 		return entries.size();
@@ -76,6 +79,38 @@ public class SortedListPriorityQueue<Key, Value> implements PriorityQueue<Key, V
 		return size() == 0;
 	}
 	
+	public MyEntry<Key, Value> min() throws EmptyPriorityQueueException {
+		if (size() == 0)
+			throw new EmptyPriorityQueueException("The priority queue is empty");
+		
+		return entries.first().element();  // A menor chave está na primeira posição na lista de nós
+	}
+	
+	public MyEntry<Key, Value> insert(Key key, Value value) throws InvalidKeyException {
+		return null;
+		/* --------- FAZER --------- */
+	}
+	
+	protected void insertEntry(MyEntry<Key, Value> entry) {
+		/* --------- FAZER --------- */
+	}
+	
+	public MyEntry<Key, Value> removeMin() throws EmptyPriorityQueueException {
+		if (size() == 0)
+			throw new EmptyPriorityQueueException("The priority queue is empty");
+		
+		return entries.remove(entries.first());   // A menor chave está na primeira posição na lista de nós
+	}
+	
+	protected boolean checkKey(Key key) throws InvalidKeyException {
+		return true;
+		/* --------- FAZER --------- */
+	}
+	
+	@Override
+	public String toString() {
+		return entries.toString();
+	}
 }
      
   
