@@ -9,6 +9,7 @@ import commons.PriorityQueue;
 import exceptions.EmptyPriorityQueueException;
 import exceptions.InvalidKeyException;
 import list_of_nodes.NodePositionList;
+import list_of_nodes.Position;
 
 public class SortedListPriorityQueue<Key, Value> implements PriorityQueue<Key, Value> {
 	protected NodePositionList<MyEntry<Key, Value>> entries;  // Lista de nós que guardará as entradas.
@@ -87,12 +88,36 @@ public class SortedListPriorityQueue<Key, Value> implements PriorityQueue<Key, V
 	}
 	
 	public MyEntry<Key, Value> insert(Key key, Value value) throws InvalidKeyException {
-		return null;
-		/* --------- FAZER --------- */
+		checkKey(key);
+		
+		MyEntry<Key, Value> newEntry = new MyEntry<Key, Value>(key, value);
+		insertEntry(newEntry);
+		return newEntry;
 	}
 	
+	/** Método auxiliar usado na inserção. */
 	protected void insertEntry(MyEntry<Key, Value> entry) {
-		/* --------- FAZER --------- */
+		if (entries.isEmpty()) {
+			entries.addFirst(entry);  // Se a fila estiver vazia, insere a primeira entrada.
+		}
+		else if (comparator.compare(entry.getKey(), entries.last().element().getKey()) > 0) {
+			entries.addLast(entry);  // Se a nova entrada tiver a chave maior que a ultima chave da fila, insere no final.
+		}
+		else {
+			Position<MyEntry<Key, Value>> point = entries.first(); 
+			
+			/* Compara se a chave da nova entrada (entry) é maior que a chave no primeiro elemento
+			 * da fila (point), se for, point avança para o proximo elemento e repete o ciclo.
+			 */
+			while (comparator.compare(entry.getKey(), point.element().getKey()) > 0) {
+				point = entries.next(point);
+			}
+			
+			/* Insere antes de point, pois a condição do while deu false,
+			 * logo, a chave do elemento é menor ou igual a chave de point.
+			 */
+			entries.addBefore(point, entry); 
+		}
 	}
 	
 	public MyEntry<Key, Value> removeMin() throws EmptyPriorityQueueException {
@@ -102,9 +127,19 @@ public class SortedListPriorityQueue<Key, Value> implements PriorityQueue<Key, V
 		return entries.remove(entries.first());   // A menor chave está na primeira posição na lista de nós
 	}
 	
+	/** Determina se uma chave é válida fazendo uma comparação com ela mesma,
+	 *  se for possível compara-la, então é válida, caso contrario, é inválida. */
 	protected boolean checkKey(Key key) throws InvalidKeyException {
-		return true;
-		/* --------- FAZER --------- */
+		boolean check;
+		
+		try {
+			check = comparator.compare(key, key) == 0; 
+		}
+		catch (ClassCastException error) {
+			throw new InvalidKeyException("Invalid key: cannot be compared");
+		}
+		
+		return check;
 	}
 	
 	@Override
