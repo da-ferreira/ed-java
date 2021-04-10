@@ -9,3 +9,4 @@ public class DefaultComparator<Type> implements Comparator<Type> {
 		return ((Comparable<Type>) a).compareTo(b);
 	}
 }
+  
