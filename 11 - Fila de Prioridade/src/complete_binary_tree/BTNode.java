@@ -1,9 +1,9 @@
 
 package complete_binary_tree;
 
-import position.BTPosition;
+import position.BTPos;
 
-public class BTNode<Type> implements BTPosition<Type> {
+public class BTNode<Type> implements BTPos<Type> {
 	private Type element;         // Elemento armazenado
 	private BTNode<Type> left;    // Filho esquerdo
 	private BTNode<Type> right;   // Filho direito

@@ -3,6 +3,7 @@ package complete_binary_tree;
 
 import exceptions.BoundaryViolationException;
 import exceptions.InvalidPositionException;
+import position.Position;
 
 /**
  * @author david-ferreira
@@ -17,7 +18,7 @@ public interface BinaryTree<Type> extends Tree<Type> {
 	 * @throws InvalidPositionException: Caso a posição (node) seja inválida.
 	 * @throws BoundaryViolationException: Caso node não tiver filho a esquerda.
 	 */
-	public BTNode<Type> left(BTNode<Type> node) throws InvalidPositionException, BoundaryViolationException;
+	public Position<Type> left(BTNode<Type> node) throws InvalidPositionException, BoundaryViolationException;
 	
 	/**
 	 * Retorna o filho da direita do nó.
@@ -26,7 +27,7 @@ public interface BinaryTree<Type> extends Tree<Type> {
 	 * @throws InvalidPositionException: Caso a posição (node) seja inválida.
 	 * @throws BoundaryViolationException: Caso node não tiver filho a direita.
 	 */
-	public BTNode<Type> right(BTNode<Type> node) throws InvalidPositionException, BoundaryViolationException;
+	public Position<Type> right(BTNode<Type> node) throws InvalidPositionException, BoundaryViolationException;
 	
 	/**
 	 * @param node O nó que se deseja saber se tem filho a esquerda.

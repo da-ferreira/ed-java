@@ -3,6 +3,7 @@ package complete_binary_tree;
 
 import java.util.Iterator;
 import exceptions.InvalidPositionException;
+import position.Position;
 import exceptions.BoundaryViolationException;
 import exceptions.EmptyTreeException;
 
@@ -31,7 +32,7 @@ public interface Tree<Type> extends Iterable<Type> {
 	 * @return A raíz da árvore.
 	 * @throws EmptyTreeException: Caso a árvore esteja vazia.
 	 */
-	public BTNode<Type> root() throws EmptyTreeException;
+	public Position<Type> root() throws EmptyTreeException;
 	
 	/**
 	 * @param node A posição do nó que que se deseja obter o pai.
@@ -39,7 +40,7 @@ public interface Tree<Type> extends Iterable<Type> {
 	 * @throws InvalidPositionException: Caso a posicao do elemento (node) seja inválida.
 	 * @throws BoundaryViolationException: Caso a posição do nó passado seja a raíz da árvore.
 	 */
-	public BTNode<Type> parent(BTNode<Type> node) throws InvalidPositionException, BoundaryViolationException;
+	public Position<Type> parent(BTNode<Type> node) throws InvalidPositionException, BoundaryViolationException;
 	
 	/**
 	 * @param node A posição do nó que que se deseja obter os filhos. 
@@ -70,7 +71,7 @@ public interface Tree<Type> extends Iterable<Type> {
 	public boolean isRoot(BTNode<Type> node) throws InvalidPositionException;
 	
 	/** @return Retorna uma coleção iterável dos nodos. */
-	public Iterable<BTNode<Type>> positions();
+	public Iterable<Position<Type>> positions();
 	
 	/** @return Retorna um iterador sobre os elementos armazenados na árvore. */
 	public Iterator<Type> iterator();
