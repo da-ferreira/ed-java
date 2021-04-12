@@ -26,7 +26,7 @@ public interface Tree<Type> extends Iterable<Type> {
 	 * @return O antigo elemento do nó.
 	 * @throws InvalidPositionException: Caso a posicao do elemento (node) seja inválida.
 	 */
-	public Type replace(BTNode<Type> node, Type newElement) throws InvalidPositionException;
+	public Type replace(Position<Type> node, Type newElement) throws InvalidPositionException;
 	
 	/**
 	 * @return A raíz da árvore.
@@ -40,35 +40,35 @@ public interface Tree<Type> extends Iterable<Type> {
 	 * @throws InvalidPositionException: Caso a posicao do elemento (node) seja inválida.
 	 * @throws BoundaryViolationException: Caso a posição do nó passado seja a raíz da árvore.
 	 */
-	public Position<Type> parent(BTNode<Type> node) throws InvalidPositionException, BoundaryViolationException;
+	public Position<Type> parent(Position<Type> node) throws InvalidPositionException, BoundaryViolationException;
 	
 	/**
 	 * @param node A posição do nó que que se deseja obter os filhos. 
 	 * @return Uma coleção iterável dos filhos de um dado nó.
 	 * @throws InvalidPositionException: Caso a posicao do elemento (node) seja inválida.
 	 */
-	public Iterable<BTNode<Type>> children(BTNode<Type> node) throws InvalidPositionException;
+	public Iterable<Position<Type>> children(Position<Type> node) throws InvalidPositionException;
 	
 	/**
 	 * @param node A posição do nó que que se deseja saber se é folha (externo).
 	 * @return true se um dado nó é externo (folha), do contrário, retorna false.
 	 * @throws InvalidPositionException: Caso a posicao do elemento (node) seja inválida.
 	 */
-	public boolean isExternal(BTNode<Type> node) throws InvalidPositionException;
+	public boolean isExternal(Position<Type> node) throws InvalidPositionException;
 	
 	/**
 	 * @param node A posição do nó que que se deseja saber se não é folha (interno).
 	 * @return true se um dado nó é interno (não é folha), do contrário, retorna false.
 	 * @throws InvalidPositionException: Caso a posicao do elemento (node) seja inválida.
 	 */
-	public boolean isInternal(BTNode<Type> node) throws InvalidPositionException;
+	public boolean isInternal(Position<Type> node) throws InvalidPositionException;
 	
 	/**
 	 * @param node A posição do nó que que se deseja saber se é raiz da arvore.
 	 * @return true se um dado nó é raiz, do contrário, retorna false.
 	 * @throws InvalidPositionException: Caso a posicao do elemento (node) seja inválida.
 	 */
-	public boolean isRoot(BTNode<Type> node) throws InvalidPositionException;
+	public boolean isRoot(Position<Type> node) throws InvalidPositionException;
 	
 	/** @return Retorna uma coleção iterável dos nodos. */
 	public Iterable<Position<Type>> positions();

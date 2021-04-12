@@ -2,10 +2,12 @@
 package complete_binary_tree;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import exceptions.BoundaryViolationException;
 import exceptions.EmptyTreeException;
 import exceptions.InvalidPositionException;
+import list_of_nodes.NodePositionList;
 import position.Position;
 
 /**
@@ -20,10 +22,10 @@ import position.Position;
  */
 
 public class ArrayListCompleteBinaryTree<Type> implements CompleteBinaryTree<Type> {
-	protected ArrayList<BTPosition<Type>> tree;  // Vetor que guardará a árvore.
+	protected ArrayList<Position<Type>> tree;  // Vetor que guardará a árvore.
 	
 	public ArrayListCompleteBinaryTree() {
-		tree = new ArrayList<BTPosition<Type>>();
+		tree = new ArrayList<Position<Type>>();  // Position<Type> -> BTPosition<Type>
 		tree.add(0, null);  // Um heap (arvore binaria completa) em um vetor não utiliza a posicao 0, começa a partir do indice 1.
 	}
 	
@@ -67,37 +69,37 @@ public class ArrayListCompleteBinaryTree<Type> implements CompleteBinaryTree<Typ
 		return size() == 0;
 	}
 		
-	public boolean isInternal(BTPosition<Type> node) throws InvalidPositionException {
+	public boolean isInternal(Position<Type> node) throws InvalidPositionException {
 		return hasLeft(node);  // Se o nó tem um filho a esquerda, logo ele não é folha (interno).
 	}
 	
-	public boolean isExternal(BTPosition<Type> node) throws InvalidPositionException {
+	public boolean isExternal(Position<Type> node) throws InvalidPositionException {
 		return ! isInternal(node);
 	}
 	
-	public boolean isRoot(BTPosition<Type> node) throws InvalidPositionException {
+	public boolean isRoot(Position<Type> node) throws InvalidPositionException {
 		BTPosition<Type> point = checkPosition(node);
 		return point.index() == 1;
 	}
 	
-	public boolean hasLeft(BTPosition<Type> node) throws InvalidPositionException {
+	public boolean hasLeft(Position<Type> node) throws InvalidPositionException {
 		BTPosition<Type> point = checkPosition(node);
 		return 2 * point.index() <= size();  
 	}
 	
-	public boolean hasRight(BTPosition<Type> node) throws InvalidPositionException {
+	public boolean hasRight(Position<Type> node) throws InvalidPositionException {
 		BTPosition<Type> point = checkPosition(node);
 		return (2 * point.index() + 1) <= size();  
 	}
 	
-	public BTPosition<Type> root() throws EmptyTreeException {
+	public Position<Type> root() throws EmptyTreeException {
 		if (isEmpty())
 			throw new EmptyTreeException("The tree is empty");
 		
 		return tree.get(1);
 	}
 	
-	public BTPosition<Type> left(BTPosition<Type> node) throws InvalidPositionException, BoundaryViolationException {
+	public Position<Type> left(Position<Type> node) throws InvalidPositionException, BoundaryViolationException {
 		if (! hasLeft(node))
 			throw new BoundaryViolationException("The node has no child on the left");
 		
@@ -105,7 +107,7 @@ public class ArrayListCompleteBinaryTree<Type> implements CompleteBinaryTree<Typ
 		return tree.get(2 * point.index());
 	}
 	
-	public BTPosition<Type> right(BTPosition<Type> node) throws InvalidPositionException, BoundaryViolationException {
+	public Position<Type> right(Position<Type> node) throws InvalidPositionException, BoundaryViolationException {
 		if (! hasLeft(node))
 			throw new BoundaryViolationException("The node has no child on the right");
 		
@@ -113,13 +115,43 @@ public class ArrayListCompleteBinaryTree<Type> implements CompleteBinaryTree<Typ
 		return tree.get(2 * point.index() + 1);
 	}
 	
+	public Position<Type> parent(Position<Type> node) throws InvalidPositionException, BoundaryViolationException {
+		if (isRoot(node))
+			throw new BoundaryViolationException("The node has no parent (root)");
+		
+		BTPosition<Type> point = checkPosition(node);
+		return tree.get(point.index() / 2);
+	}
+	
+	public Iterable<Position<Type>> children(Position<Type> node) throws InvalidPositionException {
+		NodePositionList<Position<Type>> children = new NodePositionList<Position<Type>>();
+		
+		if (hasLeft(node))
+			children.addLast(left(node));
+		
+		if (hasRight(node))
+			children.addLast(right(node));
+		
+		return children;
+	}
+	
+	public Iterable<Position<Type>> positions() {
+		ArrayList<Position<Type>> array = new ArrayList<Position<Type>>(); 
+		
+		for (int i=1; i < size(); i++) {
+			array.add(tree.get(i));
+		}
+		
+		return array;
+	}
+	
 	/* MÉTODOS AUXILIARES */
 	
-	/** Verifica se um dado nó é válido (se ele não é null e se é instancia de BTPosition) */
-	protected BTPosition<Type> checkPosition(BTPosition<Type> node) throws InvalidPositionException {
+	/** Verifica se um dado nó (posicao) é válido (se ele não é null e se é instancia de BTPosition) */
+	protected BTPosition<Type> checkPosition(Position<Type> node) throws InvalidPositionException {
 		if (node == null || ! (node instanceof BTPosition))
 			throw new InvalidPositionException("The node is invalid");
 		
-		return node;
+		return (BTPosition<Type>) node;
 	}
 }
