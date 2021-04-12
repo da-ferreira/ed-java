@@ -1,6 +1,7 @@
 
 package complete_binary_tree;
 
+import exceptions.EmptyTreeException;
 import position.Position;
 
 /** Interface para  uma árvore binária completa. Uma árvore binária completa tem o máximo
@@ -16,6 +17,7 @@ public interface CompleteBinaryTree<Type> extends BinaryTree<Type> {
 	/**
 	 * Remove o elemento armazenado no último nó da árvore.
 	 * @return O elemento removido.
+	 * @throws EmptyTreeException: Caso a árvore esteja vazia.
 	 */
-	public Type remove();
+	public Type remove() throws EmptyTreeException;
 }

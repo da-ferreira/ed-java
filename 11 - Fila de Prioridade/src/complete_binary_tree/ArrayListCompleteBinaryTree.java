@@ -135,6 +135,57 @@ public class ArrayListCompleteBinaryTree<Type> implements CompleteBinaryTree<Typ
 		return children;
 	}
 	
+	public Type replace(Position<Type> node, Type newElement) throws InvalidPositionException {
+		BTPosition<Type> point = checkPosition(node);
+		return point.setElement(newElement);
+	}
+	
+	public Position<Type> add(Type element) {
+		int index = size() + 1;
+		BTPosition<Type> newElement = new BTPosition<Type>(element, index);
+		tree.add(index, newElement);
+		
+		return newElement;
+	}
+	
+	public Type remove() throws EmptyTreeException {
+		if (isEmpty())
+			throw new EmptyTreeException("The tree is empty");
+		
+		return tree.remove(size()).element();
+	}
+	
+	/* MÉTODOS ADICIONAIS */
+	
+	/** Retorna o irmão de node (esquerdo ou direito). */
+	public Position<Type> sibling(Position<Type> node) throws InvalidPositionException, BoundaryViolationException {
+		try {
+			Position<Type> parentNode = parent(node);
+			Position<Type> leftNode = left(parentNode);
+			
+			if (node == leftNode)
+				return right(node);
+			
+			return leftNode;
+		}
+		catch (BoundaryViolationException error) {
+			throw new BoundaryViolationException("The node has no sibling");
+		}
+	}
+	
+	/** Troca os elementos de dois nós. */
+	public void swapElements(Position<Type> nodeW, Position<Type> nodeZ) throws InvalidPositionException {
+		BTPosition<Type> pointW = checkPosition(nodeW);
+		BTPosition<Type> pointZ = checkPosition(nodeZ);
+		
+		Type temp = pointW.element();
+		
+		pointW.setElement(pointZ.element());
+		pointZ.setElement(temp);
+	}
+	
+	/* MÉTODOS ITERAVEIS */
+	
 	public Iterable<Position<Type>> positions() {
 		ArrayList<Position<Type>> array = new ArrayList<Position<Type>>(); 
 		
@@ -145,6 +196,16 @@ public class ArrayListCompleteBinaryTree<Type> implements CompleteBinaryTree<Typ
 		return array;
 	}
 	
+	public Iterator<Type> iterator() {
+		ArrayList<Type> array = new ArrayList<Type>(); 
+		
+		for (int i=1; i < size(); i++) {
+			array.add(tree.get(i).element());
+		}	
+		
+		return array.iterator();
+	}
+	
 	/* MÉTODOS AUXILIARES */
 	
 	/** Verifica se um dado nó (posicao) é válido (se ele não é null e se é instancia de BTPosition) */
@@ -153,5 +214,10 @@ public class ArrayListCompleteBinaryTree<Type> implements CompleteBinaryTree<Typ
 			throw new InvalidPositionException("The node is invalid");
 		
 		return (BTPosition<Type>) node;
+	}
+	
+	@Override
+	public String toString() {
+		return tree.toString();
 	}
 }
