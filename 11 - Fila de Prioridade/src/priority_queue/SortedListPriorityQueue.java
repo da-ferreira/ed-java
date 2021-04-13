@@ -15,15 +15,14 @@ public class SortedListPriorityQueue<Key, Value> implements PriorityQueue<Key, V
 	protected NodePositionList<MyEntry<Key, Value>> entries;  // Lista de nós que guardará as entradas.
 	protected Comparator<Key> comparator;
 	
-	/** Classe interna definida dentro de outra classe externa (SortedListPriorityQueue),
-	 *  onde a classe interna tem relacionamento especial com a externa, podendo acessar
-	 *  seus membros privados. */
+	/** Classe interna definida dentro de outra classe externa (SortedListPriorityQueue), onde
+	 *  a classe interna tem relacionamento especial com a externa, podendo acessar seus membros privados. */
 	protected static class MyEntry<Key, Value> implements Entry<Key, Value> {
 		protected Key key;
 		protected Value value;
 		
 		public MyEntry(Key key, Value value) {
-			this.key = key;
+			this.key = key;	
 			this.value = value;
 		}
 		

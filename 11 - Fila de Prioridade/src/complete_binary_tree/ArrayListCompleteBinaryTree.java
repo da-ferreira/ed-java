@@ -29,9 +29,8 @@ public class ArrayListCompleteBinaryTree<Type> implements CompleteBinaryTree<Typ
 		tree.add(0, null);  // Uma arvore binaria completa em um vetor não utiliza a posicao 0, começa a partir do indice 1.
 	}
 	
-	/** Classe interna definida dentro de outra classe externa (ArrayListCompleteBinaryTree),
-	 *  onde a classe interna tem relacionamento especial com a externa, podendo acessar
-	 *  seus membros privados. */
+	/** Classe interna definida dentro de outra classe externa (ArrayListCompleteBinaryTree), onde
+	 *  a classe interna tem relacionamento especial com a externa, podendo acessar seus membros privados. */
 	protected static class BTPosition<Type> implements Position<Type> {
 		protected Type element;  // Elemento armazenado nesta posição.
 		protected int index;     // Indice desta posição no ArrayList (tree)
