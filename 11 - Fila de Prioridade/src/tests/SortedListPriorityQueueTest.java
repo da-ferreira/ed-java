@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import commons.Entry;
 import priority_queue.SortedListPriorityQueue;
 import exceptions.EmptyPriorityQueueException;
-import pessoa.Pessoa;
-import pessoa.PessoaComparator;
+import person.Pessoa;
+import person.PessoaComparator;
 
 class SortedListPriorityQueueTest {
 	@Test
