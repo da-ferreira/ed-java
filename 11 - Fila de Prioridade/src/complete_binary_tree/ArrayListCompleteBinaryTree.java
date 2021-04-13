@@ -215,6 +215,7 @@ public class ArrayListCompleteBinaryTree<Type> implements CompleteBinaryTree<Typ
 		return (BTPosition<Type>) node;
 	}
 	
+	/** Representacão em string -> equivalente a um percurso em nivel pela arvore binaria completa*/
 	@Override
 	public String toString() {
 		return tree.toString();

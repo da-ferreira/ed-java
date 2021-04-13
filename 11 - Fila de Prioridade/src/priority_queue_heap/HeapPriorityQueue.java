@@ -111,6 +111,52 @@ public class HeapPriorityQueue<Key, Value> implements PriorityQueue<Key, Value> 
 		}
 	}
 	
+	public MyEntry<Key, Value> removeMin() throws EmptyPriorityQueueException {
+		if (isEmpty())
+			throw new EmptyPriorityQueueException("The priority queue is empty");
+		
+		MyEntry<Key, Value> min = heap.root().element();
+		
+		if (heap.size() == 1) {
+			heap.remove();
+		}
+		else {
+			heap.replace(heap.root(), heap.remove());  // Muda o elemento da raíz para o elemento do ultimo nó da lista, removendo o ultimo nó
+			downHeap(heap.root()); 
+		}
+		
+		return min;
+	}
+	
+	/** Realiza o down-Heap bubbling: Quando acontece uma remoção em um heap (min-heap), é removido a raíz,
+	 *  o menor elemento, e no lugar da raíz coloca-se o ultimo nó do heap (um swap entre a raíz e o ultimo nó).
+	 *  Pode acontecer de a nova raíz violar a regra (o pai ser menor que o filho) do heap. Para resolver isso
+	 *  basta trocar o pai com o menor dos filhos. */
+	protected void downHeap(Position<MyEntry<Key, Value>> node) {
+		while (heap.isInternal(node)) {  // Enquanto o nó (node) não for folha.
+			Position<MyEntry<Key, Value>> smaller_son;
+			
+			if (! heap.hasRight(node)) {
+				smaller_son = heap.left(node);
+			}
+			else if (comparator.compare(heap.left(node).element().getKey(), heap.right(node).element().getKey()) <= 0) {
+				smaller_son = heap.left(node);  // A chave do filho da esquerda é menor ou igual a chave do filho da direita
+			}
+			else {
+				smaller_son = heap.right(node);
+			}
+			
+			/* Se o filho for menor que o pai, acontece uma troca (sawp) entre o filho e o pai */
+			if (comparator.compare(smaller_son.element().getKey(), node.element().getKey()) < 0) {
+				swap(smaller_son, node);
+				node = smaller_son;
+			}
+			else {
+				break;
+			}
+		}
+	}
+	
 	/* MÉTODOS AUXILIARES */
 	
 	/** Troca os elementos de duas posições. */
@@ -130,5 +176,10 @@ public class HeapPriorityQueue<Key, Value> implements PriorityQueue<Key, Value> 
 		catch (ClassCastException error) {
 			throw new InvalidKeyException("Invalid key: cannot be compared");
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return heap.toString();
 	}
 }
