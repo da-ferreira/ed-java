@@ -140,7 +140,7 @@ public class ArrayListCompleteBinaryTree<Type> implements CompleteBinaryTree<Typ
 	}
 	
 	public Position<Type> add(Type element) {
-		int index = size() + 1;
+		int index = size() + 1;  // Indice do elemento depois do ultimo.
 		BTPosition<Type> newElement = new BTPosition<Type>(element, index);
 		tree.add(index, newElement);
 		
