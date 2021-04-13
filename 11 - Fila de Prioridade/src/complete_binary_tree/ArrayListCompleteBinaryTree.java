@@ -11,7 +11,7 @@ import list_of_nodes.NodePositionList;
 import position.Position;
 
 /**
- * Implementação da árvore binária completa (ou heap) usando um vetor.
+ * Implementação da árvore binária completa (parece com heap) usando um vetor.
  * O vetor começa a partir do índice 1 (o indice 0 fica como null), 
  * que guarda a raíz da árvore, com seu resto nos indices seguintes.
  * Se um nó da árvore tem indice j seu filho da esquerda terá o indice
@@ -26,7 +26,7 @@ public class ArrayListCompleteBinaryTree<Type> implements CompleteBinaryTree<Typ
 	
 	public ArrayListCompleteBinaryTree() {
 		tree = new ArrayList<Position<Type>>();  // Position<Type> -> BTPosition<Type>
-		tree.add(0, null);  // Um heap (arvore binaria completa) em um vetor não utiliza a posicao 0, começa a partir do indice 1.
+		tree.add(0, null);  // Uma arvore binaria completa em um vetor não utiliza a posicao 0, começa a partir do indice 1.
 	}
 	
 	/** Classe interna definida dentro de outra classe externa (ArrayListCompleteBinaryTree),
