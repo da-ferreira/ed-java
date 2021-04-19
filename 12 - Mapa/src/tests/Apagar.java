@@ -36,6 +36,11 @@ public class Apagar {
         System.out.println((teste << 5) | (teste >>> 27));
         System.out.println(teste << 5);
         System.out.println(teste >>> 27);
+        
+        int zero = -0;
+        
+        System.out.println(zero);
+        
     }
     
     public static int hashCode(long i) {

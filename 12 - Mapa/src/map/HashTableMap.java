@@ -1,11 +1,13 @@
 
 package map;
 
+import java.util.Random;
 import commons.Entry;
+import exceptions.InvalidKeyException;
 
 /**
- * Tabela hash que usa teste linear para lidar com colisões e o método MAD (multiplicação-adição-divisão)
- * para lidar com a função de compressão da função hash.
+ * Tabela hash que usa teste linear para lidar com colisões.
+ * A função hash usa o código hash padrão de cada objeto (hashCode) e a função de compressão do método MAD (multiplicação-adição-divisão).
  * 
  * O método MAD mapeia um inteiro i para:
  * 
@@ -23,8 +25,36 @@ import commons.Entry;
 
 public class HashTableMap<Key, Value> implements Map<Key, Value> {
 	protected HashEntry<Key, Value> AVAILABLE = new HashEntry<Key, Value>(null, null);  // Sentinela para itens desativados (espaços vazios depois de remover uma entrada). 
-	protected int entry;
+	protected HashEntry<Key, Value> bucket[];  // Arranjo de buckets
+	protected int capacity;  // Número da capacidade do arranjo de buckets
+	protected int entrys;     // Número de entradas no mapa (par chave-valor)
+	protected int prime;     // Fator primo > capacity
+	protected long scale;    // Fator de escala.
+	protected long shift;    // Fator de deslocamento (shift)
 	
+	/** Cria uma tabela hash com fator primo 109345121 e capacidade 1000 */
+	public HashTableMap() {
+		this(109345121, 1000);
+	}
+	
+	/** Cria uma tabela hash com fator primo 109345121 e capacidade informada. */
+	public HashTableMap(int capacity) {
+		this(109345121, capacity);
+	}
+	
+	@SuppressWarnings("unchecked")
+	/** Cria uma tabela hash com fator primo e capacidade fornecida. */
+	public HashTableMap(int prime, int capacity) {
+		bucket = (HashEntry<Key, Value>[]) new HashEntry[capacity];  // cast
+		this.prime = prime;
+		this.capacity = capacity;
+		entrys = 0;
+		
+		Random gerador = new Random();
+		
+		scale = gerador.nextInt(this.prime - 1) + 1;  // acrescenta +1, caso o número gerado for 0 (fator de escala não pode ser 0). 
+		shift = gerador.nextInt(this.prime - 1);
+	}
 	
 	/**
 	 * Classe aninhada (interna, tem relacionamento especial com a externa, HashTableMap, 
@@ -72,8 +102,26 @@ public class HashTableMap<Key, Value> implements Map<Key, Value> {
 		public String toString() {
 			return "(" + key + ", " + value + ")";  // "(key, value)"
 		}
-		
-		
-		
+	}
+	
+	/** Aplica a função de compressão do método MAD para o código hash padrão de cada objeto (hashCode). 
+	 *  método MAD converte um inteiro i para: [(ai + b) mod P] mod N */
+	public int hashValue(Key key) {
+		return (int) ((Math.abs(key.hashCode() * scale + shift) % prime) % capacity);
+	}
+	
+	public int size() {
+		return entrys;
+	}
+	
+	public boolean isEmpty() {
+		return entrys == 0;
+	}
+	
+	/** Verifica se uma chave é válida (é válida se não for null). */
+	protected void checkKey(Key key) {
+		if (key == null)
+			throw new InvalidKeyException("Invalid key: key == null");
 	}
 }
+   
