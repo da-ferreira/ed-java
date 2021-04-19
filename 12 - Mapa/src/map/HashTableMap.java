@@ -7,7 +7,7 @@ import exceptions.InvalidKeyException;
 
 /**
  * Tabela hash que usa teste linear para lidar com colisões.
- * A função hash usa o código hash padrão de cada objeto (hashCode) e a função de compressão do método MAD (multiplicação-adição-divisão).
+ * A função hash usa o código hash padrão de cada objeto (hashCode) e a função de compressão método MAD (multiplicação-adição-divisão).
  * 
  * O método MAD mapeia um inteiro i para:
  * 
@@ -27,7 +27,7 @@ public class HashTableMap<Key, Value> implements Map<Key, Value> {
 	protected HashEntry<Key, Value> AVAILABLE = new HashEntry<Key, Value>(null, null);  // Sentinela para itens desativados (espaços vazios depois de remover uma entrada). 
 	protected HashEntry<Key, Value> bucket[];  // Arranjo de buckets
 	protected int capacity;  // Número da capacidade do arranjo de buckets
-	protected int entrys;     // Número de entradas no mapa (par chave-valor)
+	protected int entrys;    // Número de entradas no mapa (par chave-valor)
 	protected int prime;     // Fator primo > capacity
 	protected long scale;    // Fator de escala.
 	protected long shift;    // Fator de deslocamento (shift)
@@ -104,7 +104,7 @@ public class HashTableMap<Key, Value> implements Map<Key, Value> {
 		}
 	}
 	
-	/** Aplica a função de compressão do método MAD para o código hash padrão de cada objeto (hashCode). 
+	/** Aplica a função de compressão MAD para o código hash padrão de cada objeto (hashCode). 
 	 *  método MAD converte um inteiro i para: [(ai + b) mod P] mod N */
 	public int hashValue(Key key) {
 		return (int) ((Math.abs(key.hashCode() * scale + shift) % prime) % capacity);
