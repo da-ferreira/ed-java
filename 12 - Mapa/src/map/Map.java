@@ -1,6 +1,7 @@
 
 package map;
 
+import commons.Entry;
 import exceptions.InvalidKeyException;
 
 /** Interface para um mapa, com entradas de chave-valor, onde aceita uma chave única para um valor. */
@@ -41,8 +42,8 @@ public interface Map<Key, Value> {
 	public Iterable<Key> keySet();
 	
 	/** @return Um objeto iterable com todos os valores do mapa. */
-	public Iterable<Key> values();
+	public Iterable<Value> values();
 	
 	/** @return Um objeto iterable com todas as entradas (par chave-valor) do mapa. */
-	public Iterable<Key> entrySet();
+	public Iterable<Entry<Key, Value>> entrySet();
 }

@@ -4,6 +4,7 @@ package map;
 import java.util.Random;
 import commons.Entry;
 import exceptions.InvalidKeyException;
+import list_of_nodes.NodePositionList;
 
 /**
  * Tabela hash que usa teste linear para lidar com colisões.
@@ -118,10 +119,44 @@ public class HashTableMap<Key, Value> implements Map<Key, Value> {
 		return entrys == 0;
 	}
 	
+	/* MÉTODOS AUXILIARES */
+	
 	/** Verifica se uma chave é válida (é válida se não for null). */
 	protected void checkKey(Key key) {
 		if (key == null)
 			throw new InvalidKeyException("Invalid key: key == null");
 	}
+	
+	/* MÉTODOS ITERÁVEIS */
+	
+	public Iterable<Key> keySet() {
+		NodePositionList<Key> keys = new NodePositionList<Key>();
+		
+		for (int i=0; i < capacity; i++)
+			if (bucket[i] != null && bucket[i] != AVAILABLE)
+				keys.addLast(bucket[i].getKey());
+		
+		return keys;
+	}
+	
+	public Iterable<Value> values() {
+		NodePositionList<Value> values = new NodePositionList<Value>();
+		
+		for (int i=0; i < capacity; i++)
+			if (bucket[i] != null && bucket[i] != AVAILABLE)
+				values.addLast(bucket[i].getValue());
+		
+		return values;
+	}
+	
+	public Iterable<Entry<Key, Value>> entrySet() {
+		NodePositionList<Entry<Key, Value>> entries = new NodePositionList<Entry<Key, Value>>();
+		
+		for (int i=0; i < capacity; i++)
+			if (bucket[i] != null && bucket[i] != AVAILABLE)
+				entries.addLast(bucket[i]);
+		
+		return entries;
+	}
 }
-   
+    
