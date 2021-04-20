@@ -106,7 +106,7 @@ public class HashTableMap<Key, Value> implements Map<Key, Value> {
 	}
 	
 	/** Aplica a função de compressão MAD para o código hash padrão de cada objeto (hashCode). 
-	 *  método MAD converte um inteiro i para: [(ai + b) mod P] mod N */
+	    método MAD converte um inteiro i para: [(ai + b) mod P] mod N */
 	public int hashValue(Key key) {
 		return (int) ((Math.abs(key.hashCode() * scale + shift) % prime) % capacity);
 	}
@@ -120,6 +120,20 @@ public class HashTableMap<Key, Value> implements Map<Key, Value> {
 	}
 	
 	/* MÉTODOS AUXILIARES */
+	
+	/** Método de busca auxiliar, retorna o indice i da chave encontrada no mapa ou -(a + 1),
+	 *  onde a é o índice da primeira posição vazia ou disponivel (AVAILABLE) encontrada.
+	 *  o negativo é pra indicar não foi encontrada uma chave igual a key. A soma de +1 é pra 
+	 *  diferenciar de zero negativo, que é zero (return -0 == return 0). */
+	protected int findEntry(Key key) throws InvalidKeyException {
+		checkKey(key);
+		
+		int index = hashValue(key);
+		int j = index;
+		
+		
+		
+	}
 	
 	/** Verifica se uma chave é válida (é válida se não for null). */
 	protected void checkKey(Key key) {
