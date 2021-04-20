@@ -43,8 +43,7 @@ public class DeslocamentoCiclicoColisoesTest {
 		}
 	}
 	
-	/** Outra forma de calcuar o código hash polinomial, substituindo a multiplicação por "a"
-     * pelo deslocamento ciclico. */
+   /** Outra forma de calcuar o código hash polinomial, substituindo a multiplicação por "a" pelo deslocamento ciclico. */
    public static int hashCode(String str, int shift) {
        int hash = 0;
                
