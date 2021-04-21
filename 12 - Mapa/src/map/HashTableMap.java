@@ -128,6 +128,34 @@ public class HashTableMap<Key, Value> implements Map<Key, Value> {
 		return bucket[index].getValue();
 	}
 	
+	public Value put(Key key, Value value) throws InvalidKeyException {
+		int index = findEntry(key);
+		
+		if (index > 0)  // A entrada com essa chave já existe
+			return bucket[index].setValue(value);
+		
+		if (entrys >= (capacity / 2)) {  
+			rehash();  // o fator de carga do mapa deve estar abaixo de 0.5; dobra o tamanho do vetor do mapa
+			index = findEntry(key);  // busca o indice apropriado para a entrada (o mapa teve seu tamanho dobrado)
+		}
+		
+		bucket[-1 -index] = new HashEntry<Key, Value>(key, value);  // findEntry retorna -(i + 1)
+		entrys++;
+		return null;  // a entrada com a chave informada não existia
+	}
+	
+	public Value remove(Key key) throws InvalidKeyException {
+		int index = findEntry(key);
+		
+		if (index < 0)
+			return null;  // a entrada com a chave informada não está no mapa
+		
+		Value toReturn = bucket[index].getValue();
+		bucket[index] = AVAILABLE;
+		entrys--;
+		return toReturn;
+	}
+	
 	/* MÉTODOS AUXILIARES */
 	
 	/** Método de busca auxiliar, retorna o indice i da chave encontrada no mapa ou -(a + 1),
