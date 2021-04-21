@@ -119,6 +119,15 @@ public class HashTableMap<Key, Value> implements Map<Key, Value> {
 		return entrys == 0;
 	}
 	
+	public Value get(Key key) throws InvalidKeyException {
+		int index = findEntry(key);
+		
+		if (index < 0)
+			return null;  // não existe essa chave no mapa
+		
+		return bucket[index].getValue();
+	}
+	
 	/* MÉTODOS AUXILIARES */
 	
 	/** Método de busca auxiliar, retorna o indice i da chave encontrada no mapa ou -(a + 1),
@@ -128,11 +137,59 @@ public class HashTableMap<Key, Value> implements Map<Key, Value> {
 	protected int findEntry(Key key) throws InvalidKeyException {
 		checkKey(key);
 		
+		int avail = -1;
 		int index = hashValue(key);
 		int j = index;
 		
+		do {
+			HashEntry<Key, Value> point = bucket[index];
+			
+			if (point == null) {  // Não tem essa chave no mapa
+				if (avail < 0)
+					avail = index;
+				break;
+			}
+			
+			if (key.equals(point.getKey()))  // Chave encontrada
+				return index;
+			
+			if (point == AVAILABLE)  // Indice no bucket está desativado
+				if (avail < 0)
+					avail = index;  // Guarda o primeiro indice disponivel (com AVAILABLE) e continua a busca abaixo.
+			
+			index = (index + 1) % capacity;  // Continua a busca caso tenha a chave nos próximos indices (teste linear).
+			
+		} while (index != j);  // Deu a volta no mapa é não achou
 		
+		return -(avail + 1);  // retornando o primeiro indice vazio ou disponivel.
+	}
+	
+	@SuppressWarnings("unchecked")
+	/** Quando o vetor do mapa (bucket) atinge sua capacidade, entrys < (capacity / 2), ou seja,
+	 *  o fator de carga do mapa é o número de entradas do mapa ser menor que a capacidade total do vetor
+	 *  dividido por dois. Gera um novo fator de escala e fator deslocamento (shift). */
+	protected void rehash() {
+		capacity *= 2;
+		HashEntry<Key, Value> oldBucket[] = bucket;
+		bucket = (HashEntry<Key, Value>[]) new HashEntry[capacity];  // Novo bucket duas vezes maior
 		
+		Random gerador = new Random();
+		scale = gerador.nextInt(this.prime - 1) + 1;  // novo fator de escala do hash 
+		shift = gerador.nextInt(this.prime - 1);      // novo fator de descalomento do hash (shift)
+		
+		for (int i=0; i < oldBucket.length; i++) {
+			HashEntry<Key, Value> point = oldBucket[i];
+			
+			if (point != null && point != AVAILABLE) {  // uma entrada válida
+				
+				/* Toda busca que for feita resultará em chave não encontrada,
+				 * porque o vetor bucket dobrou de tamanho e perdeu todos seus itens.
+				 * O método findEntry sempre retornará -(i + 1), que é a primeira posição disponível no vetor bucket. 
+				 */
+				int j = -1 - findEntry(point.getKey());
+				bucket[j] = point;
+			}
+		}
 	}
 	
 	/** Verifica se uma chave é válida (é válida se não for null). */
