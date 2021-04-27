@@ -1,0 +1,21 @@
+
+20. Forneça uma descrição em pseudocódigo da inserção em uma tabela hash que usa
+    teste quadrático para resolver colisões, assumindo que se usa o truque de substituir
+    elementos deletados com um objeto indicando "item desativado".
+    
+Resposta: 
+
+Teste Quadrático: A[(i + f(j)) mod N], para j = 0,1,2..., onde f(j) = j^2
+
+função inserir(novo_elemento)
+    i <- Código hash de novo_elemento
+    j <- 0
+    sair <- Verdadeiro
+    
+    enquanto sair for Verdadeiro
+        se MAPA[(i + (j ^ 2)) mod N] for uma posição vazia ou uma posição com "item desativado"
+            MAPA[(i + (j ^ 2)) mod N] <- novo_elemento
+            sair <- Falso
+        senao
+            j <- j + 1
+      

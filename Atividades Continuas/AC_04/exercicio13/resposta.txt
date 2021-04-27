@@ -1,0 +1,9 @@
+
+13. Mostre como implementar o TAD fila (padrão) usando apenas uma fila de prioridade e uma variável inteira adicional.
+
+Resposta: Uma fila de prioridade quando remove um elemento sempre remove o elemento que tem a menor chave.
+          Nesta implementação de TAD Fila, a variável inteira adicional será usada como as chaves de cada elemento
+          inserido na fila (padrão). A variavel inteira adicional começara com valor 0 e a cada inserção de um novo elemento na
+          fila (padrão) ela será incrementada. Portanto, quando o método dequeue() da fila (padrão) for usado, a remoção obedecerá
+          a regra FIFO (first-in, first-out), removendo a menor chave da fila de prioridade que, por conseguinte, removerá o elemento no início da fila.
+            

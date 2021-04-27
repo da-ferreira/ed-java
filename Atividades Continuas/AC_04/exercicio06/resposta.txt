@@ -1,0 +1,10 @@
+  
+6. Explique por que não se considera o caso do filho direito de r ser interno e o filho
+   esquerdo ser externo quando se descreve o processo do down-heap bubbling.
+   
+Resposta: Porque o processo de inserção de um heap segue uma lógica em que a árvore binária (heap)
+          sempre será completa. Se o último nível X da árvore não está completo, então a inserção
+          é feito após o nó mais à direita do último nivel X. Concluindo, se um dado nó Z tem um
+          filho direito interno o filho esquerdo também será interno porque as inserções do heap
+          partem da esquerda para a direita.
+          

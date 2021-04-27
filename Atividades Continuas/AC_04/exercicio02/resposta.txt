@@ -1,0 +1,21 @@
+  
+2. Qual é a saída (desenho do heap) da seguinte sequência de métodos do TAD fila de
+   prioridade: insert(5, A), insert(4, B), insert(7, I), insert(1, D), removeMin( ), insert(3, J),
+   insert(6, L), removeMin( ), removeMin( ), insert(8, G), removeMin( ), insert(2, H),
+   removeMin(), removeMin()?
+ 
+insert(5, A) = (5, A)
+insert(4, B) = (4, B)
+insert(7, I) = (7, I)
+insert(1, D) = (1, D)
+removeMin()  = (1, D)
+insert(3, J) = (3, J)
+insert(6, L) = (6, L)
+removeMin()  = (3, J)
+removeMin()  = (4, B)
+insert(8, G) = (8, G)
+removeMin()  = (5, A)
+insert(2, H) = (2, H)
+removeMin()  = (2, H)
+removeMin()  = (6, L)
+  

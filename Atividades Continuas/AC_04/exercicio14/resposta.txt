@@ -1,0 +1,11 @@
+
+14. Qual dos esquemas de tratamento de colisão de tabela hash consegue tolerar um fator
+    de carga superior a 1 e qual não consegue?
+    
+Resposta: O endereçamento separado consegue suportar um fator de carga superior a 1,
+          ainda que não seja recomendado (o certo deveria ser menor que 1).
+          
+          O endereçamento aberto (com teste linear ou teste quadrático) não consegue suportar um fator
+          superior a 1. No endereçamento aberto quando o fator de carga passa de 0.5 e começa a ser aproximar
+          de 1 grupos de itens no arranjo de buckets começa a crescer, ou seja, itens em que suas chaves tem a mesma função hash.
+   

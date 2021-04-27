@@ -1,0 +1,9 @@
+
+12. Mostre como implementar o TAD pilha usando apenas uma fila de prioridade e uma variável inteira adicional.
+
+Resposta: Para implementar o TAD Pilha, a fila de prioridades sofrerá uma alteração na sua forma de inserir e remover elemento (par chave-valor).
+          Em vez da fila de prioridade remover o elemento com a menor chave, ela removerá o elemento com a maior chave. Logo, a forma de inserir
+          na fila de prioridade também mudará. Na implementação da pilha, a variável inteira adicional será usada como as chaves de cada elemento inserido
+          na fila de prioridade. A váriavel começara com valor igual a 0 e a cada inserção feita, ela será incrementada em +1. Portanto, quando o método pop()
+          for usado ele obedecerá a regra LIFO (last-in, first-out), removendo, assim, o elemento que está no topo da pilha (ultimo elemento a ser inserido).
+                 

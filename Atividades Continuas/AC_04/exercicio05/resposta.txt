@@ -1,0 +1,7 @@
+  
+5. Seja T uma árvore binária completa em que v armazena a entrada (p(v),0), onde p(v) é
+   o número do nível de v. A árvore T é um heap? Justifique sua resposta.
+   
+Resposta: Não é um heap. Para ser um heap a árvore T tem que obedecer a regra de ou o pai-nó tem
+          seu elemento maior que seus filhos (max-heap) ou o pai-nó tem seu elemento menor que seus filhos (min-heap).
+            

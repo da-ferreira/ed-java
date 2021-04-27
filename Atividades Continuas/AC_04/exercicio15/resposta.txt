@@ -1,0 +1,28 @@
+
+15. Qual seria um bom código hash para um número de identificação de veículo que é
+    uma cadeia de caracteres representando números e letras no formato “9X9XX99X9XX999999”,
+    onde um “9” representa um dígito e um “X” representa uma letra?
+    
+Resposta: 
+
+Segue o pseudo-algoritmo abaixo para um bom código hash para o identificador:
+
+        hash <- 0
+
+        faça i para cada caracter do indentificador:
+            hash <- hash << 7
+
+            se caracter for digito:
+                hash <- hash + digito
+            senao:
+                hash <- hash + numero ascii de caracter
+
+        retorna hash
+        fim do algoritmo 
+          
+Escolhi um shift de 7 bits na soma do hash a cada iteração porque fiz um teste*
+com 10 mil identificadores de carro, gerados aleatóriamente, no formato explicitado acima,
+e o shift com 7 se saiu melhor nos testes, tendo 0 colisões nos 10 mil identificadores.
+
+* = O arquivo com os 10 mil identificadores se encontra em "indentificadores-de-veiculos.txt".
+              

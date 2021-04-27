@@ -1,0 +1,13 @@
+3. Um aeroporto quer simular o tráfego aéreo com eventos como decolagens e pousos.
+   Os eventos têm um time-stamp com a hora em que o evento acontece. O simulador
+   deve realizar eficientemente as duas operações fundamentais a seguir:
+   
+      a) inserir um evento com um dado time-stamp (ou seja, inserir um evento futuro);
+      b) extrair o evento com menor time-stamp (ou seja, determinar o próximo evento a processar);
+      
+Que estrutura de dados você usaria para suportar essas operações? Justifique sua resposta.
+
+Resposta: Usaria a estrutura de dados Fila de Prioridade usando heap. O heap seria um min-heap,
+          que é quando o pai tem um elemento menor que o filho. O evento com menor time-stamp sempre
+          ficaria na raíz do heap, seria facil de achar e retirá-lo. Ao retirar o menor, um down-Heap
+          aconteceria e o próximo evento com menor time-stamp ocuparia a raíz do heap.

@@ -1,0 +1,6 @@
+
+21. Pesquise sobre o TAD Dicionário e descreva a principal diferença desse TAD com o TAD Mapa.
+
+Resposta: A principal diferença do TAD Mapa para o TAD Dicionário é que o primeiro só aceita
+          chaves únicas para as entradas, já o segundo aceita múltiplas entradas com a mesma chave.
+    

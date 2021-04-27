@@ -1,0 +1,10 @@
+  
+4. Onde pode estar armazenado o elemento com a maior chave em um heap?
+
+Resposta: Depedende. Se o heap estivesse completo, ou seja, o último nível N do heap tivesse
+          2^N nós, o elemento com maior chave está nesse nível N. Se o último nível não estivesse
+          completo, ele poderia estar nesse último nível incompleto ou um nível acima.
+          
+          Há um heap, que é o max-heap, onde o nó-pai tem o valor de seu elemento maior que de seus filhos,
+          para todo nó-pai. Nessa estrutura de heap, o elemento com maior chave está na raíz.
+              
