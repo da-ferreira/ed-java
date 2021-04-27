@@ -1,0 +1,4 @@
+A implementação de a, b e c e seus testes estão dentro de Fila de prioridade/src.
+
+A questão d, o método que ordena (9, 1, 3, 6, 2, 7, 8) usando TAD Fila de Prioridade usando Heap,  
+está em Fila de prioridade/src/priority_queue_heap/HeapPriorityQueueSort.java.
