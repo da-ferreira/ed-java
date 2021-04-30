@@ -64,7 +64,6 @@ public class HashTableMultiMap<K, V> implements MultiMap<K, V> {
 		return newEntry;
 	}
 	
-	/*
 	public Map.Entry<K, V> remove(Map.Entry<K, V> entry) throws IllegalArgumentException {
 		if (entry == null)
 			throw new IllegalArgumentException();
@@ -75,10 +74,18 @@ public class HashTableMultiMap<K, V> implements MultiMap<K, V> {
 		if (list == null)   
 			throw new IllegalArgumentException();  // Não há essa entrada no dicionário
 		
-		if (list.remove())
-		
+		if (list.remove(entry)) {  // remove retorna booleano
+			size--;
+			
+			if (list.isEmpty()) 
+				map.remove(key);  // se a lista vinculada a chave estiver vazia após a remoção, remove a entrada com a chave
+			
+			return entry;
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
 	}
-	*/
 	
 	public Iterable<Map.Entry<K, V>> entrySet() {
 		LinkedList<Map.Entry<K, V>> list = new LinkedList<Map.Entry<K, V>>();
