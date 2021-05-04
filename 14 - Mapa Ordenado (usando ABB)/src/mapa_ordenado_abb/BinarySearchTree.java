@@ -97,6 +97,41 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 		return replaceEntry(node_position, newEntry);  //  a chave já existe.
 	}
 	
+	public Value remove(Key key) throws InvalidKeyException {
+		checkKey(key);
+		Position<Entry<Key, Value>> positionToRemove = treeSearch(key, root());
+		
+		if (isExternal((BTNode<Entry<Key, Value>>) positionToRemove))  // não há par chave-valor com chave igual a key.
+			return null;
+		
+		Entry<Key, Value> toReturn = entry(positionToRemove);  // A entrada com a chave existe.
+		
+		if (isExternal(left((BTNode<Entry<Key, Value>>) positionToRemove))) {  // O nó a ser removido tem um filho externo à esquerda; facil de remover.
+			positionToRemove = left((BTNode<Entry<Key, Value>>) positionToRemove);
+		}
+		else if (isExternal(right((BTNode<Entry<Key, Value>>) positionToRemove))) {  // O nó a ser removido tem um filho externo à direita; facil de remover.
+			positionToRemove = right((BTNode<Entry<Key, Value>>) positionToRemove);
+		}
+		else {
+			/* O nó a ser removido NÃO tem um filho externo à esquerda nem à direita; mais complexo de remover.
+			 * Neste caso, guarda a posição do nó a ser removido (swapPosition) e pega o nó seguinte (que agora é positionToRemove) 
+			 * no percurso em ordem ao o nó que será removido (swapPosition). Este nó seguinte é encontrado visitando primeiro o filho
+			 * da direita de swapPosition e, descendo a ABB pelo filho da esquerda até chegar em um nó externo. Em seguida, é feito a troca.
+			 */
+			Position<Entry<Key, Value>> swapPosition = positionToRemove;   // nó que será removido
+			positionToRemove = right((BTNode<Entry<Key, Value>>) swapPosition);
+			
+			do {
+				positionToRemove = left((BTNode<Entry<Key, Value>>) positionToRemove);
+			} while (isInternal((BTNode<Entry<Key, Value>>) positionToRemove));
+			
+			replaceEntry(swapPosition, parent((BTNode<Entry<Key, Value>>) positionToRemove).element());
+		}
+		
+		actionPosition = sibling((BTNode<Entry<Key, Value>>) positionToRemove);
+		removeExternal(positionToRemove);
+		return toReturn.getValue();
+	}
 	
 	/* MÉTODOS DA ABB */
 	
@@ -115,13 +150,35 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 			throw new InvalidPositionException("The node is not external");
 		
 		if (isRoot((BTNode<Entry<Key, Value>>) position)) {
-			remove((BTNode<Entry<Key, Value>>) position);
+			super.remove((BTNode<Entry<Key, Value>>) position);
 		}
 		else {
 			Position<Entry<Key, Value>> parentOfPosition = parent((BTNode<Entry<Key, Value>>) position);
-			remove((BTNode<Entry<Key, Value>>) position);
-			remove((BTNode<Entry<Key, Value>>) parentOfPosition);
+			super.remove((BTNode<Entry<Key, Value>>) position);
+			super.remove((BTNode<Entry<Key, Value>>) parentOfPosition);
 		}
+	}
+	
+	/** Exibe a expressão parentizada da ABB. */
+	public String printExpression(Position<Entry<Key, Value>> node) {
+		String expression = "";
+		
+		if (isInternal((BTNode<Entry<Key, Value>>) node))
+			expression += "(";
+		
+		if (hasLeft((BTNode<Entry<Key, Value>>) node))
+			expression += printExpression(left((BTNode<Entry<Key, Value>>) node));
+		
+		if (node.element() != null)
+			expression += node.element().getKey().toString();
+		
+		if (hasRight((BTNode<Entry<Key, Value>>) node))
+			expression += printExpression(right((BTNode<Entry<Key, Value>>) node));
+		
+		if (isInternal((BTNode<Entry<Key, Value>>) node))
+			expression += ")";
+		
+		return expression;
 	}
 	
 	public Iterable<Key> keySet() {
