@@ -12,6 +12,7 @@ import commons.Position;
 import exceptions.InvalidEntryException;
 import exceptions.InvalidKeyException;
 import exceptions.InvalidPositionException;
+import lista_de_nodos.NodePositionList;
 
 /**
  * Implementação de um mapa usando uma árvore binária de busca (ABB).
@@ -72,17 +73,29 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 	public Value get(Key key) throws InvalidKeyException {
 		checkKey(key);
 		
-		Position<Entry<Key, Value>> node = treeSearch(key, root());
-		actionPosition = node;  // Nó onde a pesquisa finalizou
+		Position<Entry<Key, Value>> node_position = treeSearch(key, root());
+		actionPosition = node_position;  // Nó onde a pesquisa finalizou
 		
-		if (isInternal((BTNode<Entry<Key, Value>>) node))  // achou
-			return value(node);
+		if (isInternal((BTNode<Entry<Key, Value>>) node_position))  // achou
+			return value(node_position);
 		
 		return null;  // Não há par chave-valor no mapa com essa chave.
 	}
 	
-	
-	
+	public Value put(Key key, Value value) throws InvalidKeyException {
+		checkKey(key);
+		
+		Position<Entry<Key, Value>> node_position = treeSearch(key, root());
+		BSTEntry<Key, Value> newEntry = new BSTEntry<Key, Value>(key, value, node_position);
+		actionPosition = node_position;  // Nó onde a pesquisa finalizou e onde a entrada está sendo inserida.
+		
+		if (isExternal((BTNode<Entry<Key, Value>>) node_position)) {  // O nó é externo, logo, a chave é nova, par chave-valor novo.
+			insertAtExternal(node_position, newEntry);
+			return null;
+		}
+		
+		return replaceEntry(node_position, newEntry);  //  a chave já existe.
+	}
 	
 	
 	/* MÉTODOS DA ABB */
@@ -110,8 +123,62 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 			remove((BTNode<Entry<Key, Value>>) parentOfPosition);
 		}
 	}
+	
+	public Iterable<Key> keySet() {
+		NodePositionList<Key> keys = new NodePositionList<Key>();
+		Iterable<BTNode<Entry<Key, Value>>> position_inorder = positionsInOrder();
+		
+		for (BTNode<Entry<Key, Value>> node : position_inorder)
+			if (isInternal(node))
+				keys.addLast(key(node));
+		
+		return keys;
+	}
+	
+	public Iterable<Value> values() {
+		NodePositionList<Value> values = new NodePositionList<Value>();
+		Iterable<BTNode<Entry<Key, Value>>> position_inorder = positionsInOrder();
+		
+		for (BTNode<Entry<Key, Value>> node : position_inorder)
+			if (isInternal(node))
+				values.addLast(value(node));
+		
+		return values;
+	}
+	
+	public Iterable<Entry<Key, Value>> entrySet() {
+		NodePositionList<Entry<Key, Value>> entries = new NodePositionList<Entry<Key, Value>>();
+		Iterable<BTNode<Entry<Key, Value>>> position_inorder = positionsInOrder();
+		
+		for (BTNode<Entry<Key, Value>> node : position_inorder)
+			if (isInternal(node))
+				entries.addLast(node.element());
+		
+		return entries;
+	}
 		
 	/* MÉTODOS AUXILIARES */
+	
+	/** Método auxiliar de busca onde busca uma chave (key) a partir de uma posicão (position).
+	 *  Será usado nos métodos de inserção, remoção e pesquisa (get). */
+	protected Position<Entry<Key, Value>> treeSearch(Key key, Position<Entry<Key, Value>> position) {
+		if (isExternal((BTNode<Entry<Key, Value>>) position)) {
+			return position;  // Não achou, chegou em um nó externo (placeholder)
+		}
+		else {
+			Key currentKey = key(position);  // chave da posição atual (position)
+			int comparation = comparator.compare(key, currentKey);
+			
+			if (comparation < 0) {  
+				return treeSearch(key, left((BTNode<Entry<Key, Value>>) position));  // Segue descendo na sub-árvore da esquerda
+			}
+			else if (comparation > 0) {  
+				return treeSearch(key, right((BTNode<Entry<Key, Value>>) position));  // Segue descendo na sub-árvore da direita
+			}
+		
+			return position;  // Achou a nó com a chave indicada
+		}
+	}
 	
 	/** Remove um nó externo (placeholder) e seu pai. */
 	protected void removeExternal(Position<Entry<Key, Value>> position) {
