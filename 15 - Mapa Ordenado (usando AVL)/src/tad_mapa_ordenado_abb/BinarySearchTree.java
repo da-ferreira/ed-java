@@ -67,7 +67,7 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 	 * 
 	 * Algoritmo restructure(x):
 	 *	 Entrada: um nodo x de uma árvore de pesquisa binária T que tem um pai y e um avô z
-     *	 Saída: árvore T depois de reestruturação trinodo (que corresponde a uma rotação simples ou dupla) envolvendo os nodos x, y e z
+	 *   Saída: árvore T depois de reestruturação trinodo (que corresponde a uma rotação simples ou dupla) envolvendo os nodos x, y e z
 	 *	
 	 *	 1: Faça (a,b,c), da esquerda para direita (inorder) a lista de nodos x, y, z, e faça (T0 , T1, T2, T3),
 	 * 	    da esquerda para a direita (inorder), a lista das quatro subárvores de x, y e z não enraizadas em x, y ou z.
@@ -86,7 +86,60 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 		BTPosition<Entry<Key, Value>> t1;
 		BTPosition<Entry<Key, Value>> t2;
 		BTPosition<Entry<Key, Value>> t3;
-		return null;
+		
+		/* PASSO 1: */
+		
+		Position<Entry<Key, Value>> y = parent((BTNode<Entry<Key, Value>>) x);
+		Position<Entry<Key, Value>> z = parent((BTNode<Entry<Key, Value>>) y);
+		
+		BTPosition<Entry<Key, Value>> xx = (BTPosition<Entry<Key, Value>>) x;
+		BTPosition<Entry<Key, Value>> yy = (BTPosition<Entry<Key, Value>>) y;
+		BTPosition<Entry<Key, Value>> zz = (BTPosition<Entry<Key, Value>>) z;
+		
+		boolean xLeft = (x == left((BTNode<Entry<Key, Value>>) y));
+		boolean yLeft = (y == left((BTNode<Entry<Key, Value>>) z));
+		
+		// Identificando a forma correta de mapeamento dentre as 4:
+		if (xLeft && yLeft) {  // forma b
+			a = xx;
+			b = yy;
+			c = zz;
+			t0 = a.getLeft();
+			t1 = a.getRight();
+			t2 = b.getRight();
+			t3 = c.getRight();
+		}
+		else if (!xLeft && yLeft) {  // forma d
+			a = yy;
+			b = xx;
+			c = zz;
+			t0 = a.getLeft();
+			t1 = b.getLeft();
+			t2 = b.getRight();
+			t3 = c.getRight();
+		}
+		else if (xLeft && !yLeft) {  // forma c
+			a = zz;
+			b = xx;
+			c = yy;
+			t0 = a.getLeft();
+			t1 = b.getLeft();	
+			t2 = b.getRight();
+			t3 = c.getRight();
+		}
+		else {  // forma a
+			a = zz;
+			b = yy;
+			c = xx;
+			t0 = a.getLeft();
+			t1 = b.getLeft();
+			t2 = b.getRight();
+			t3 = c.getRight();
+		}
+		
+		/* PASSO 2: */
+		
+        return null;
 	}
 	
 	/* MÉTODOS DO TAD MAPA */
