@@ -3,6 +3,8 @@ package tad_mapa_ordenado_abb.arvore_binaria;
 
 import java.util.Iterator;
 
+import tad_mapa_ordenado_abb.commons.BTPosition;
+import tad_mapa_ordenado_abb.commons.Position;
 import tad_mapa_ordenado_abb.exceptions.BoundaryViolationException;
 import tad_mapa_ordenado_abb.exceptions.EmptyTreeException;
 import tad_mapa_ordenado_abb.exceptions.InvalidPositionException;
@@ -15,7 +17,7 @@ import tad_mapa_ordenado_abb.lista_de_nodos.NodePositionList;
  */
 
 public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
-	protected BTNode<Type> root;  // Referencia para a raiz 
+	protected Position<Type> root;  // Referencia para a raiz 
 	protected int size;           // Numero de nodos na árvore.  
 	
 	public LinkedBinaryTree() {
@@ -31,23 +33,23 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		return size == 0;
 	}
 	
-	public Type replace(BTNode<Type> node, Type newElement) throws InvalidPositionException {
-		BTNode<Type> point = checkPosition(node);
+	public Type replace(Position<Type> node, Type newElement) throws InvalidPositionException {
+		BTPosition<Type> point = checkPosition(node);
 		Type toReturn = point.element();
 		point.setElement(newElement);
 		
 		return toReturn;
 	}
 	
-	public BTNode<Type> root() throws EmptyTreeException {
+	public Position<Type> root() throws EmptyTreeException {
 		if (size == 0)
 			throw new EmptyTreeException("The binary tree is empty.");
 		
 		return root;
 	}
 	
-	public BTNode<Type> parent(BTNode<Type> node) throws InvalidPositionException, BoundaryViolationException {
-		BTNode<Type> point = checkPosition(node);
+	public Position<Type> parent(Position<Type> node) throws InvalidPositionException, BoundaryViolationException {
+		BTPosition<Type> point = checkPosition(node);
 		
 		if (point == root)
 			throw new BoundaryViolationException("The root has no father");
@@ -55,9 +57,9 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		return point.getParent();
 	}
 	
-	public Iterable<BTNode<Type>> children(BTNode<Type> node) throws InvalidPositionException {
-		BTNode<Type> point = checkPosition(node);
-		NodePositionList<BTNode<Type>> children = new NodePositionList<BTNode<Type>>();
+	public Iterable<Position<Type>> children(Position<Type> node) throws InvalidPositionException {
+		BTPosition<Type> point = checkPosition(node);
+		NodePositionList<Position<Type>> children = new NodePositionList<Position<Type>>();
 		
 		if (hasLeft(point))
 			children.addLast(point.getLeft());
@@ -67,23 +69,23 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		return children;
 	}
 	
-	public boolean isExternal(BTNode<Type> node) throws InvalidPositionException {
-		BTNode<Type> point = checkPosition(node);
+	public boolean isExternal(Position<Type> node) throws InvalidPositionException {
+		Position<Type> point = checkPosition(node);
 		return (! hasLeft(point) && ! hasRight(point));
 	}
 	
-	public boolean isInternal(BTNode<Type> node) throws InvalidPositionException {
+	public boolean isInternal(Position<Type> node) throws InvalidPositionException {
 		return ! isExternal(node);
 	}
 	
-	public boolean isRoot(BTNode<Type> node) throws InvalidPositionException {
-		BTNode<Type> point = checkPosition(node);
+	public boolean isRoot(Position<Type> node) throws InvalidPositionException {
+		Position<Type> point = checkPosition(node);
 		return point == root;
 	}
 	
-	public BTNode<Type> left(BTNode<Type> node) throws InvalidPositionException, BoundaryViolationException {
-		BTNode<Type> point = checkPosition(node);
-		BTNode<Type> leftPoint = point.getLeft();
+	public Position<Type> left(Position<Type> node) throws InvalidPositionException, BoundaryViolationException {
+		BTPosition<Type> point = checkPosition(node);
+		Position<Type> leftPoint = (Position<Type>) point.getLeft();
 		
 		if (leftPoint == null)
 			throw new BoundaryViolationException("The node has no child on the left");
@@ -91,9 +93,9 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		return leftPoint;
 	}
 	
-	public BTNode<Type> right(BTNode<Type> node) throws InvalidPositionException, BoundaryViolationException {
-		BTNode<Type> point = checkPosition(node);
-		BTNode<Type> rightPoint = point.getRight();
+	public Position<Type> right(Position<Type> node) throws InvalidPositionException, BoundaryViolationException {
+		BTPosition<Type> point = checkPosition(node);
+		Position<Type> rightPoint = (Position<Type>) point.getRight();
 		
 		if (rightPoint == null)
 			throw new BoundaryViolationException("The node has no child on the right");
@@ -101,19 +103,19 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 		return rightPoint;
 	}
 	
-	public boolean hasLeft(BTNode<Type> node) throws InvalidPositionException {
-		BTNode<Type> point = checkPosition(node);
+	public boolean hasLeft(Position<Type> node) throws InvalidPositionException {
+		BTPosition<Type> point = checkPosition(node);
 		return point.getLeft() != null;
 	}
 	
-	public boolean hasRight(BTNode<Type> node) throws InvalidPositionException {
-		BTNode<Type> point = checkPosition(node);
+	public boolean hasRight(Position<Type> node) throws InvalidPositionException {
+		BTPosition<Type> point = checkPosition(node);
 		return point.getRight() != null;
 	}
 	
 	/** Retorna uma coleção iterável (NodePositionList) contendo os nós da árvore em percurso pré-ordem. */
-	public Iterable<BTNode<Type>> positions() {
-		NodePositionList<BTNode<Type>> positions = new NodePositionList<BTNode<Type>>();
+	public Iterable<Position<Type>> positions() {
+		NodePositionList<Position<Type>> positions = new NodePositionList<Position<Type>>();
 		
 		if (this.size > 0)
 			preOrderPosition(root(), positions);
@@ -122,8 +124,8 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	}
 	
 	/** Retorna uma coleção iterável (NodePositionList) contendo os nós da árvore em percurso em-ordem. */
-	public Iterable<BTNode<Type>> positionsInOrder() {
-		NodePositionList<BTNode<Type>> positions = new NodePositionList<BTNode<Type>>();
+	public Iterable<Position<Type>> positionsInOrder() {
+		NodePositionList<Position<Type>> positions = new NodePositionList<Position<Type>>();
 		
 		if (this.size > 0)
 			inOrderPosition(root(), positions);
@@ -132,8 +134,8 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	}
 	
 	/** Retorna uma coleção iterável (NodePositionList) contendo os nós da árvore em percurso pós-ordem. */
-	public Iterable<BTNode<Type>> positionsPostOrder() {
-		NodePositionList<BTNode<Type>> positions = new NodePositionList<BTNode<Type>>();
+	public Iterable<Position<Type>> positionsPostOrder() {
+		NodePositionList<Position<Type>> positions = new NodePositionList<Position<Type>>();
 		
 		if (this.size > 0)
 			postOrderPosition(root(), positions);
@@ -142,10 +144,10 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	}
 	
 	public Iterator<Type> iterator() {
-		Iterable<BTNode<Type>> positions = positions();
+		Iterable<Position<Type>> positions = positions();
 		NodePositionList<Type> elements = new NodePositionList<Type>();
 		
-		for (BTNode<Type> node : positions)
+		for (Position<Type> node : positions)
 			elements.addLast(node.element());
 		
 		return elements.iterator();
@@ -159,12 +161,12 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	 * @throws InvalidPositionException: Caso a posição (node) seja inválida.
 	 * @throws BoundaryViolationException: Caso o nó não tenha irmão.
 	 */
-	public BTNode<Type> sibling(BTNode<Type> node) throws InvalidPositionException, BoundaryViolationException {
-		BTNode<Type> point = checkPosition(node);
-		BTNode<Type> parentPoint = point.getParent();
+	public Position<Type> sibling(Position<Type> node) throws InvalidPositionException, BoundaryViolationException {
+		BTPosition<Type> point = checkPosition(node);
+		BTPosition<Type> parentPoint = point.getParent();
 		
 		if (parentPoint != null) {
-			BTNode<Type> sibling;
+			Position<Type> sibling;
 			
 			if (point == parentPoint.getLeft()) {
 				sibling = parentPoint.getRight();
@@ -186,11 +188,11 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	 * @return O nó que contem a raíz.
 	 * @throws NonEmptyTreeException: Caso a árvore não esteja vazia.
 	 */
-	public BTNode<Type> addRoot(Type element) throws NonEmptyTreeException {
+	public Position<Type> addRoot(Type element) throws NonEmptyTreeException {
 		if (this.size != 0)
 			throw new NonEmptyTreeException("The tree is not empty!");
 		
-		root = new BTNode<Type>(element, null, null, null);
+		root = createNode(element, null, null, null);
 		size = 1;
 		return root;
 	}
@@ -202,13 +204,13 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	 * @return O nó do elemento inserido.
 	 * @throws InvalidPositionException: Caso o nó passado já tenha um filho a esquerda.
 	 */
-	public BTNode<Type> insertLeft(BTNode<Type> node, Type element) throws InvalidPositionException {
-		BTNode<Type> point = checkPosition(node);
+	public Position<Type> insertLeft(Position<Type> node, Type element) throws InvalidPositionException {
+		BTPosition<Type> point = checkPosition(node);
 		
 		if (point.getLeft() != null)
 			throw new InvalidPositionException("The node already has a child on the left");
 		
-		point.setLeft(new BTNode<Type>(element, null, null, point));
+		point.setLeft(createNode(element, null, null, point));
 		size++;
 		return point.getLeft();
 	}
@@ -220,13 +222,13 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	 * @return O nó do elemento inserido.
 	 * @throws InvalidPositionException: Caso o nó passado já tenha um filho a direita.
 	 */
-	public BTNode<Type> insertRight(BTNode<Type> node, Type element) throws InvalidPositionException {
-		BTNode<Type> point = checkPosition(node);
+	public Position<Type> insertRight(Position<Type> node, Type element) throws InvalidPositionException {
+		BTPosition<Type> point = checkPosition(node);
 		
 		if (point.getRight() != null)
 			throw new InvalidPositionException("The node already has a child on the right");
 		
-		point.setRight(new BTNode<Type>(element, null, null, point));
+		point.setRight(createNode(element, null, null, point));
 		size++;
 		return point.getRight();
 	}
@@ -237,13 +239,13 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	 * @return O elemento do nó removido.
 	 * @throws InvalidPositionException: Caso o nó passado seja inválido ou ele tenha 2 filhos.
 	 */
-	public Type remove(BTNode<Type> node) throws InvalidPositionException {
-		BTNode<Type> point = checkPosition(node);
+	public Type remove(Position<Type> node) throws InvalidPositionException {
+		BTPosition<Type> point = checkPosition(node);
 		
 		if (point.getLeft() != null && point.getRight() != null)  // O nó tem dois filhos?
 			throw new InvalidPositionException("It is not possible to remove a node with two children");
 		
-		BTNode<Type> childrenPoint;  // filho de point, se houver
+		BTPosition<Type> childrenPoint;  // filho de point, se houver
 		
 		if (point.getLeft() != null) {
 			childrenPoint = point.getLeft();
@@ -276,7 +278,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 			root = childrenPoint;
 		}
 		else {
-			BTNode<Type> parentPoint = point.getParent();
+			BTPosition<Type> parentPoint = point.getParent();
 			
 			if (point == parentPoint.getLeft()) {
 				parentPoint.setLeft(childrenPoint);
@@ -300,19 +302,19 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	 * @param tree2 Segunda árvore (direita).
 	 * @throws InvalidPositionException: Caso o nó passado seja inválido ou ele não seja externo (folha).
 	 */
-	public void attach(BTNode<Type> node, LinkedBinaryTree<Type> tree1, LinkedBinaryTree<Type> tree2) throws InvalidPositionException {
-		BTNode<Type> point = checkPosition(node);
+	public void attach(Position<Type> node, LinkedBinaryTree<Type> tree1, LinkedBinaryTree<Type> tree2) throws InvalidPositionException {
+		BTPosition<Type> point = checkPosition(node);
 		
 		if (isInternal(point))
 			throw new InvalidPositionException("The node is not external");
 		
 		if (tree1.size() > 0) {
-			BTNode<Type> root_tree1 = checkPosition(tree1.root());
+			BTPosition<Type> root_tree1 = checkPosition(tree1.root());
 			point.setLeft(root_tree1);
 			root_tree1.setParent(point);
 		}
 		if (tree2.size() > 0) {
-			BTNode<Type> root_tree2 = checkPosition(tree2.root());
+			BTPosition<Type> root_tree2 = checkPosition(tree2.root());
 			point.setRight(root_tree2);
 			root_tree2.setParent(point);
 		}  
@@ -322,7 +324,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	
 	/** Adiciona em uma lista de nós (NodePositionList) os elementos da árvore em percurso pré-ordem, 
 	 *  mostrando a raiz, o elemento a esquerda e depois o elemento a direita */
-	protected void preOrderPosition(BTNode<Type> node, NodePositionList<BTNode<Type>> list) {
+	protected void preOrderPosition(Position<Type> node, NodePositionList<Position<Type>> list) {
 		list.addLast(node);
 		
 		if (hasLeft(node))
@@ -333,7 +335,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	
 	/** Adiciona em uma lista de nós (NodePositionList) os elementos da árvore em percurso em-ordem, 
 	 *  mostrando o elemento a esquerda, a raiz e depois o elemento a direita */
-	protected void inOrderPosition(BTNode<Type> node, NodePositionList<BTNode<Type>> list) {
+	protected void inOrderPosition(Position<Type> node, NodePositionList<Position<Type>> list) {
 		if (hasLeft(node))
 			inOrderPosition(left(node), list);  // Chama recursivamente a sub-arvore da esquerda
 		
@@ -345,7 +347,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	
 	/** Adiciona em uma lista de nós (NodePositionList) os elementos da árvore em percurso pós-ordem, 
 	 *  mostrando o elemento a esquerda, o elemento a direita e depois a raiz */
-	protected void postOrderPosition(BTNode<Type> node, NodePositionList<BTNode<Type>> list) {
+	protected void postOrderPosition(Position<Type> node, NodePositionList<Position<Type>> list) {
 		if (hasLeft(node))
 			postOrderPosition(left(node), list);
 		
@@ -392,7 +394,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	/** Avalia a expressão numa árvore binária, percorrendo ela em percurso pós-ordem,
 	 *  fazendo as operações aritmeticas simples.
 	 *  @return O resultado da expressão presente na árvore. */
-	public int evaluateExpression(LinkedBinaryTree<String> tree, BTNode<String> node) {
+	public int evaluateExpression(LinkedBinaryTree<String> tree, Position<String> node) {
 		int result = 0;
 		
 		if (tree.isInternal(node)) {
@@ -425,7 +427,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	/** Basicamente, o caminhamento de Euler é um passeio pela árvore binária, onde
 	 *  cada nó da árvore é visitado 3 vezes, numa espécie de junção dos caminhamento pré, em e pós-ordem. 
 	 *  @return A string com o caminho de Euler. */
-	public String eulerTour(BTNode<Type> node) {
+	public String eulerTour(Position<Type> node) {
 		String percurso = "";
 		percurso += node.element();
 		
@@ -447,7 +449,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	 * @return A quantidade de nós que são esquerdos e externos em uma árvore binária. 
 	 * @throws BoundaryViolationException: Caso a árvore esteja vazia ou com 1 elemento (raíz não é esquerdo nem direito).
 	 */
-	public int accountLeftExternalNodes(BTNode<Type> node) throws BoundaryViolationException {
+	public int accountLeftExternalNodes(Position<Type> node) throws BoundaryViolationException {
 		int cont = 0;
 		
 		if (hasLeft(node)) {
@@ -470,7 +472,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	 * @return A quantidade de nós que são direitos e externos em uma árvore binária. 
 	 * @throws BoundaryViolationException: Caso a árvore esteja vazia ou com 1 elemento (raíz não é esquerdo nem direito).
 	 */
-	public int accountRightExternalNodes(BTNode<Type> node) throws BoundaryViolationException {
+	public int accountRightExternalNodes(Position<Type> node) throws BoundaryViolationException {
 		int cont = 0;
 		
 		if (hasRight(node)) {
@@ -489,7 +491,7 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	}
 	
 	/** @return A expressão aritmérica parentizada que está presente na árvore binária. */
-	public String printExpression(BTNode<Type> node) {
+	public String printExpression(Position<Type> node) {
 		String expressao = "";
 		
 		if (isInternal(node))
@@ -516,26 +518,26 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	
 	/** Representacao de uma lista em String com o percurso pré-ordem. */
 	public String toStringPreOrder() {
-		Iterable<BTNode<Type>> positions = positions();		
+		Iterable<Position<Type>> positions = positions();		
 		return toStringModel(positions);
 	}
 
 	/** Representacao de uma lista em String com o percurso em-ordem. */
 	public String toStringInOrder() {
-		Iterable<BTNode<Type>> positions = positionsInOrder();		
+		Iterable<Position<Type>> positions = positionsInOrder();		
 		return toStringModel(positions);
 	}
 	
 	/** Representacao de uma lista em String com o percurso pós-ordem. */
 	public String toStringPostOrder() {
-		Iterable<BTNode<Type>> positions = positionsPostOrder();		
+		Iterable<Position<Type>> positions = positionsPostOrder();		
 		return toStringModel(positions);
 	}
 
 	/* MÉTODOS AUXILIARES */
 	
 	/** Cria e retorna um BTNode */
-	protected BTNode<Type> createNode(Type element, BTNode<Type> left, BTNode<Type> right, BTNode<Type> parent) {
+	protected BTPosition<Type> createNode(Type element, BTPosition<Type> left, BTPosition<Type> right, BTPosition<Type> parent) {
 		return new BTNode<Type>(element, left, right, parent);
 	}
 
@@ -545,20 +547,20 @@ public class LinkedBinaryTree<Type> implements BinaryTree<Type> {
 	 * @return O nó (em BTNode)
 	 * @throws InvalidPositionException: Caso a posição, de fato, for inválida.
 	 */
-	protected BTNode<Type> checkPosition(BTNode<Type> node) throws InvalidPositionException {
-		if (node == null || !(node instanceof BTNode))
+	protected BTPosition<Type> checkPosition(Position<Type> node) throws InvalidPositionException {
+		if (node == null || !(node instanceof Position))
 			throw new InvalidPositionException("The node is invalid!");
 		
-		return (BTNode<Type>) node;
+		return (BTPosition<Type>) node;
 	}
 	
-	private String toStringModel(Iterable<BTNode<Type>> positions) {
+	private String toStringModel(Iterable<Position<Type>> positions) {
 		if (isEmpty())
 			return "[]";
 		
 		String represent = "[";
 		
-		for (BTNode<Type> element : positions)
+		for (Position<Type> element : positions)
 			represent += element.element() + ", ";
 		
 		return represent.substring(0, represent.length() - 2) + "]";

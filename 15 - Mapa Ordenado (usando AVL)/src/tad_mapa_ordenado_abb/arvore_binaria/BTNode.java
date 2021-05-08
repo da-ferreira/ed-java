@@ -5,11 +5,11 @@ import tad_mapa_ordenado_abb.commons.BTPosition;
 
 public class BTNode<Type> implements BTPosition<Type> {
 	private Type element;         // Elemento armazenado
-	private BTNode<Type> left;    // Filho esquerdo
-	private BTNode<Type> right;   // Filho direito
-	private BTNode<Type> parent;  // Pai 
+	private BTPosition<Type> left;    // Filho esquerdo
+	private BTPosition<Type> right;   // Filho direito
+	private BTPosition<Type> parent;  // Pai 
 	
-	public BTNode(Type element, BTNode<Type> left, BTNode<Type> right, BTNode<Type> parent) {
+	public BTNode(Type element, BTPosition<Type> left, BTPosition<Type> right, BTPosition<Type> parent) {
 		this.element = element;
 		this.left = left;
 		this.right = right;
@@ -27,27 +27,27 @@ public class BTNode<Type> implements BTPosition<Type> {
 		this.element = element;
 	}
 
-	public BTNode<Type> getLeft() {
+	public BTPosition<Type> getLeft() {
 		return left;
 	}
 
-	public void setLeft(BTNode<Type> left) {
+	public void setLeft(BTPosition<Type> left) {
 		this.left = left;
 	}
 
-	public BTNode<Type> getRight() {
+	public BTPosition<Type> getRight() {
 		return right;
 	}
 
-	public void setRight(BTNode<Type> right) {
+	public void setRight(BTPosition<Type> right) {
 		this.right = right;
 	}
 
-	public BTNode<Type> getParent() {
+	public BTPosition<Type> getParent() {
 		return parent;
 	}
 
-	public void setParent(BTNode<Type> parent) {
+	public void setParent(BTPosition<Type> parent) {
 		this.parent = parent;
 	}
 }

@@ -3,7 +3,6 @@ package tad_mapa_ordenado_abb;
 
 import java.util.Comparator;
 
-import tad_mapa_ordenado_abb.arvore_binaria.BTNode;
 import tad_mapa_ordenado_abb.arvore_binaria.LinkedBinaryTree;
 import tad_mapa_ordenado_abb.commons.BTPosition;
 import tad_mapa_ordenado_abb.commons.DefaultComparator;
@@ -96,15 +95,15 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 		/* PASSO 1: Faça (a,b,c), da esquerda para direita (inorder) a lista de nodos x, y, z, e faça (T0 , T1, T2, T3),
 	     * da esquerda para a direita (inorder), a lista das quatro subárvores de x, y e z não enraizadas em x, y ou z. */
 		
-		Position<Entry<Key, Value>> y = parent((BTNode<Entry<Key, Value>>) x);
-		Position<Entry<Key, Value>> z = parent((BTNode<Entry<Key, Value>>) y);
+		Position<Entry<Key, Value>> y = parent(x);
+		Position<Entry<Key, Value>> z = parent(y);
 		
 		BTPosition<Entry<Key, Value>> xx = (BTPosition<Entry<Key, Value>>) x;
 		BTPosition<Entry<Key, Value>> yy = (BTPosition<Entry<Key, Value>>) y;
 		BTPosition<Entry<Key, Value>> zz = (BTPosition<Entry<Key, Value>>) z;
 		
-		boolean xLeft = (x == left((BTNode<Entry<Key, Value>>) y));
-		boolean yLeft = (y == left((BTNode<Entry<Key, Value>>) z));
+		boolean xLeft = (x == left(y));
+		boolean yLeft = (y == left(z));
 		
 		// Identificando a forma correta de mapeamento dentre as 4:
 		if (xLeft && yLeft) {  // forma b
@@ -146,39 +145,39 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 		
 		/* PASSO 2: Substitua a subárvore enraizada em z por uma nova subárvore enraizada em b. */
 		
-		if (isRoot((BTNode<Entry<Key, Value>>) z)) {
-			root = (BTNode<Entry<Key, Value>>) b;
+		if (isRoot(z)) {
+			root = b;
 			b.setParent(null);
 		}
 		else {
-			BTPosition<Entry<Key, Value>> zParent = (BTPosition<Entry<Key, Value>>) parent((BTNode<Entry<Key, Value>>) z);
-			b.setParent((BTNode<Entry<Key, Value>>) zParent);
+			BTPosition<Entry<Key, Value>> zParent = (BTPosition<Entry<Key, Value>>) parent(z);
+			b.setParent(zParent);
 			
-			if (z == left((BTNode<Entry<Key, Value>>) zParent)) {  // z é filho esquerdo
-				zParent.setLeft((BTNode<Entry<Key, Value>>) b);
+			if (z == left(zParent)) {  // z é filho esquerdo
+				zParent.setLeft(b);
 			}
 			else {  // z é filho direito
-				zParent.setRight((BTNode<Entry<Key, Value>>) b);
+				zParent.setRight(b);
 			}
 		}
 		
 		/* PASSO 3: Faça a o filho esquerdo de b e T0 e T1 as subárvores esquerda e direita de a, respectivamente. */
 		
-		b.setLeft((BTNode<Entry<Key, Value>>) a);
-		a.setParent((BTNode<Entry<Key, Value>>) b);
-		a.setLeft((BTNode<Entry<Key, Value>>) t0);
-		a.setRight((BTNode<Entry<Key, Value>>) t1);
-		t0.setParent((BTNode<Entry<Key, Value>>) a);
-		t1.setParent((BTNode<Entry<Key, Value>>) a);
+		b.setLeft(a);
+		a.setParent(b);
+		a.setLeft(t0);
+		a.setRight(t1);
+		t0.setParent(a);
+		t1.setParent(a);
 		
 		/* PASSO 4: Faça c o filho direito de b e T2 e T3 as subárvores esquerda e direita de c, respectivamente. */
 		
-		b.setRight((BTNode<Entry<Key, Value>>) c);
-		c.setParent((BTNode<Entry<Key, Value>>) b);
-		c.setLeft((BTNode<Entry<Key, Value>>) t2);
-		c.setRight((BTNode<Entry<Key, Value>>) t3);
-		t2.setParent((BTNode<Entry<Key, Value>>) c);
-		t3.setParent((BTNode<Entry<Key, Value>>) c);
+		b.setRight(c);
+		c.setParent(b);
+		c.setLeft(t2);
+		c.setRight(t3);
+		t2.setParent(c);
+		t3.setParent(c);
 		
 		// Redefinindo as posições dos nós depois da reestruturação:
 		((BSTEntry<Key, Value>) a.element()).position = a;
@@ -204,7 +203,7 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 		Position<Entry<Key, Value>> node_position = treeSearch(key, root());
 		actionPosition = node_position;  // Nó onde a pesquisa finalizou
 		
-		if (isInternal((BTNode<Entry<Key, Value>>) node_position))  // achou
+		if (isInternal(node_position))  // achou
 			return value(node_position);
 		
 		return null;  // Não há par chave-valor no mapa com essa chave.
@@ -217,7 +216,7 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 		BSTEntry<Key, Value> newEntry = new BSTEntry<Key, Value>(key, value, node_position);
 		actionPosition = node_position;  // Nó onde a pesquisa finalizou e onde a entrada está sendo inserida.
 		
-		if (isExternal((BTNode<Entry<Key, Value>>) node_position)) {  // O nó é externo, logo, a chave é nova, par chave-valor novo.
+		if (isExternal(node_position)) {  // O nó é externo, logo, a chave é nova, par chave-valor novo.
 			insertAtExternal(node_position, newEntry);
 			return null;
 		}
@@ -229,16 +228,16 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 		checkKey(key);
 		Position<Entry<Key, Value>> positionToRemove = treeSearch(key, root());
 		
-		if (isExternal((BTNode<Entry<Key, Value>>) positionToRemove))  // não há par chave-valor com chave igual a key.
+		if (isExternal(positionToRemove))  // não há par chave-valor com chave igual a key.
 			return null;
 		
 		Entry<Key, Value> toReturn = entry(positionToRemove);  // A entrada com a chave existe.
 		
-		if (isExternal(left((BTNode<Entry<Key, Value>>) positionToRemove))) {  // O nó a ser removido tem um filho externo à esquerda; facil de remover.
-			positionToRemove = left((BTNode<Entry<Key, Value>>) positionToRemove);
+		if (isExternal(left(positionToRemove))) {  // O nó a ser removido tem um filho externo à esquerda; facil de remover.
+			positionToRemove = left(positionToRemove);
 		}
-		else if (isExternal(right((BTNode<Entry<Key, Value>>) positionToRemove))) {  // O nó a ser removido tem um filho externo à direita; facil de remover.
-			positionToRemove = right((BTNode<Entry<Key, Value>>) positionToRemove);
+		else if (isExternal(right(positionToRemove))) {  // O nó a ser removido tem um filho externo à direita; facil de remover.
+			positionToRemove = right(positionToRemove);
 		}
 		else {
 			/* O nó a ser removido NÃO tem um filho externo à esquerda nem à direita; mais complexo de remover.
@@ -247,16 +246,16 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 			 * da direita de swapPosition e, descendo a ABB pelo filho da esquerda até chegar em um nó externo. Em seguida, é feito a troca.
 			 */
 			Position<Entry<Key, Value>> swapPosition = positionToRemove;   // nó que será removido
-			positionToRemove = right((BTNode<Entry<Key, Value>>) swapPosition);
+			positionToRemove = right(swapPosition);
 			
 			do {
-				positionToRemove = left((BTNode<Entry<Key, Value>>) positionToRemove);
-			} while (isInternal((BTNode<Entry<Key, Value>>) positionToRemove));
+				positionToRemove = left(positionToRemove);
+			} while (isInternal(positionToRemove));
 			
-			replaceEntry(swapPosition, parent((BTNode<Entry<Key, Value>>) positionToRemove).element());
+			replaceEntry(swapPosition, parent(positionToRemove).element());
 		}
 		
-		actionPosition = sibling((BTNode<Entry<Key, Value>>) positionToRemove);
+		actionPosition = sibling(positionToRemove);
 		removeExternal(positionToRemove);
 		return toReturn.getValue();
 	}
@@ -265,25 +264,25 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 	
 	/** Expande um nó externo tornando-o interno e adicionando dois filhos (nós) externos a ele (left e right). */
 	public void expandExternal(Position<Entry<Key, Value>> position, Entry<Key, Value> left, Entry<Key, Value> right) throws InvalidPositionException {
-		if (!isExternal((BTNode<Entry<Key, Value>>) position))
+		if (!isExternal(position))
 			throw new InvalidPositionException("The node is not external");
 		
-		insertLeft((BTNode<Entry<Key, Value>>) position, left);
-		insertRight((BTNode<Entry<Key, Value>>) position, right);
+		insertLeft(position, left);
+		insertRight(position, right);
 	}
 	
 	/** Remove um nó externo (placeholder) e seu pai. */
 	public void remobeAboveExternal(Position<Entry<Key, Value>> position) throws InvalidPositionException {
-		if (!isExternal((BTNode<Entry<Key, Value>>) position))
+		if (!isExternal(position))
 			throw new InvalidPositionException("The node is not external");
 		
-		if (isRoot((BTNode<Entry<Key, Value>>) position)) {
-			super.remove((BTNode<Entry<Key, Value>>) position);
+		if (isRoot(position)) {
+			super.remove(position);
 		}
 		else {
-			Position<Entry<Key, Value>> parentOfPosition = parent((BTNode<Entry<Key, Value>>) position);
-			super.remove((BTNode<Entry<Key, Value>>) position);
-			super.remove((BTNode<Entry<Key, Value>>) parentOfPosition);
+			Position<Entry<Key, Value>> parentOfPosition = parent(position);
+			super.remove(position);
+			super.remove(parentOfPosition);
 		}
 	}
 	
@@ -291,19 +290,19 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 	public String printExpression(Position<Entry<Key, Value>> node) {
 		String expression = "";
 		
-		if (isInternal((BTNode<Entry<Key, Value>>) node))
+		if (isInternal(node))
 			expression += "(";
 		
-		if (hasLeft((BTNode<Entry<Key, Value>>) node))
-			expression += printExpression(left((BTNode<Entry<Key, Value>>) node));
+		if (hasLeft(node))
+			expression += printExpression(left(node));
 		
 		if (node.element() != null)
 			expression += node.element().getKey().toString();
 		
-		if (hasRight((BTNode<Entry<Key, Value>>) node))
-			expression += printExpression(right((BTNode<Entry<Key, Value>>) node));
+		if (hasRight(node))
+			expression += printExpression(right(node));
 		
-		if (isInternal((BTNode<Entry<Key, Value>>) node))
+		if (isInternal(node))
 			expression += ")";
 		
 		return expression;
@@ -311,9 +310,9 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 	
 	public Iterable<Key> keySet() {
 		NodePositionList<Key> keys = new NodePositionList<Key>();
-		Iterable<BTNode<Entry<Key, Value>>> position_inorder = positionsInOrder();
+		Iterable<Position<Entry<Key, Value>>> position_inorder = positionsInOrder();
 		
-		for (BTNode<Entry<Key, Value>> node : position_inorder)
+		for (Position<Entry<Key, Value>> node : position_inorder)
 			if (isInternal(node))
 				keys.addLast(key(node));
 		
@@ -322,9 +321,9 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 	
 	public Iterable<Value> values() {
 		NodePositionList<Value> values = new NodePositionList<Value>();
-		Iterable<BTNode<Entry<Key, Value>>> position_inorder = positionsInOrder();
+		Iterable<Position<Entry<Key, Value>>> position_inorder = positionsInOrder();
 		
-		for (BTNode<Entry<Key, Value>> node : position_inorder)
+		for (Position<Entry<Key, Value>> node : position_inorder)
 			if (isInternal(node))
 				values.addLast(value(node));
 		
@@ -333,9 +332,9 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 	
 	public Iterable<Entry<Key, Value>> entrySet() {
 		NodePositionList<Entry<Key, Value>> entries = new NodePositionList<Entry<Key, Value>>();
-		Iterable<BTNode<Entry<Key, Value>>> position_inorder = positionsInOrder();
+		Iterable<Position<Entry<Key, Value>>> position_inorder = positionsInOrder();
 		
-		for (BTNode<Entry<Key, Value>> node : position_inorder)
+		for (Position<Entry<Key, Value>> node : position_inorder)
 			if (isInternal(node))
 				entries.addLast(node.element());
 		
@@ -347,7 +346,7 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 	/** Método auxiliar de busca onde busca uma chave (key) a partir de uma posicão (position).
 	 *  Será usado nos métodos de inserção, remoção e pesquisa (get). */
 	protected Position<Entry<Key, Value>> treeSearch(Key key, Position<Entry<Key, Value>> position) {
-		if (isExternal((BTNode<Entry<Key, Value>>) position)) {
+		if (isExternal(position)) {
 			return position;  // Não achou, chegou em um nó externo (placeholder)
 		}
 		else {
@@ -355,10 +354,10 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 			int comparation = comparator.compare(key, currentKey);
 			
 			if (comparation < 0) {  
-				return treeSearch(key, left((BTNode<Entry<Key, Value>>) position));  // Segue descendo na sub-árvore da esquerda
+				return treeSearch(key, left(position));  // Segue descendo na sub-árvore da esquerda
 			}
 			else if (comparation > 0) {  
-				return treeSearch(key, right((BTNode<Entry<Key, Value>>) position));  // Segue descendo na sub-árvore da direita
+				return treeSearch(key, right(position));  // Segue descendo na sub-árvore da direita
 			}
 		
 			return position;  // Achou a nó com a chave indicada
@@ -379,7 +378,7 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 		 * colocará a entrada "entry" em position.
 		 */
 		expandExternal(position, null, null);
-		replace((BTNode<Entry<Key, Value>>) position, entry);
+		replace(position, entry);
 		numEntries++;
 		return entry;
 	}
@@ -387,7 +386,7 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 	/** Substitui um elemento numa posição por outro elemento, retornando seu valor novo (atualiza a posição do elemento também). */
 	protected Value replaceEntry(Position<Entry<Key, Value>> position, Entry<Key, Value> entry) {
 		((BSTEntry<Key, Value>) entry).position = position;
-		return replace((BTNode<Entry<Key, Value>>) position, entry).getValue();
+		return replace(position, entry).getValue();
 	}
 	
 	/** Retorna a chave de um determinado nó da árvore. */

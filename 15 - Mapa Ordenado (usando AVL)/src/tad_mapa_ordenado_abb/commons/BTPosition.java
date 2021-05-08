@@ -1,8 +1,6 @@
 
 package tad_mapa_ordenado_abb.commons;
 
-import tad_mapa_ordenado_abb.arvore_binaria.BTNode;
-
 public interface BTPosition<Type> extends Position<Type> {
 	/**
 	 * Define o elemento desta posição.
@@ -11,29 +9,29 @@ public interface BTPosition<Type> extends Position<Type> {
 	public void setElement(Type newElement);
 	
 	/** @return Retorna o filho da esquerda desta posição. */
-	public BTNode<Type> getLeft();
+	public BTPosition<Type> getLeft();
 	
 	/**
 	 * Define o filho da esquerda dessa posição
 	 * @param left o filho.
 	 */
-	public void setLeft(BTNode<Type> left);
+	public void setLeft(BTPosition<Type> left);
 	
 	/** @return Retorna o filho da direita desta posição. */
-	public BTNode<Type> getRight();
+	public BTPosition<Type> getRight();
 	
 	/**
 	 * Define o filho da direita dessa posição
 	 * @param right o filho.
 	 */
-	public void setRight(BTNode<Type> right);
+	public void setRight(BTPosition<Type>right);
 	
 	/** @return Retorna o pai desta posição. */
-	public BTNode<Type> getParent();
+	public BTPosition<Type> getParent();
 	
 	/**
 	 * Define o pai desta posição
 	 * @param parent o filho.
 	 */
-	public void setParent(BTNode<Type> parent);
+	public void setParent(BTPosition<Type> parent);
 }
