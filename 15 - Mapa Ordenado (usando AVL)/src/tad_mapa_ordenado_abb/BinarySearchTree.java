@@ -31,6 +31,12 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 		numEntries = 0;
 		addRoot(null);
 	}
+	
+	public BinarySearchTree(Comparator<Key> comparator) {
+		this.comparator = comparator;
+		numEntries = 0;
+		addRoot(null);
+	}
 
 	/** Classe aninhada para as entradas da ABB. */
 	protected static class BSTEntry<Key, Value> implements Entry<Key, Value> {
@@ -87,7 +93,8 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 		BTPosition<Entry<Key, Value>> t2;
 		BTPosition<Entry<Key, Value>> t3;
 		
-		/* PASSO 1: */
+		/* PASSO 1: Faça (a,b,c), da esquerda para direita (inorder) a lista de nodos x, y, z, e faça (T0 , T1, T2, T3),
+	     * da esquerda para a direita (inorder), a lista das quatro subárvores de x, y e z não enraizadas em x, y ou z. */
 		
 		Position<Entry<Key, Value>> y = parent((BTNode<Entry<Key, Value>>) x);
 		Position<Entry<Key, Value>> z = parent((BTNode<Entry<Key, Value>>) y);
@@ -137,9 +144,48 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 			t3 = c.getRight();
 		}
 		
-		/* PASSO 2: */
+		/* PASSO 2: Substitua a subárvore enraizada em z por uma nova subárvore enraizada em b. */
 		
-        return null;
+		if (isRoot((BTNode<Entry<Key, Value>>) z)) {
+			root = (BTNode<Entry<Key, Value>>) b;
+			b.setParent(null);
+		}
+		else {
+			BTPosition<Entry<Key, Value>> zParent = (BTPosition<Entry<Key, Value>>) parent((BTNode<Entry<Key, Value>>) z);
+			b.setParent((BTNode<Entry<Key, Value>>) zParent);
+			
+			if (z == left((BTNode<Entry<Key, Value>>) zParent)) {  // z é filho esquerdo
+				zParent.setLeft((BTNode<Entry<Key, Value>>) b);
+			}
+			else {  // z é filho direito
+				zParent.setRight((BTNode<Entry<Key, Value>>) b);
+			}
+		}
+		
+		/* PASSO 3: Faça a o filho esquerdo de b e T0 e T1 as subárvores esquerda e direita de a, respectivamente. */
+		
+		b.setLeft((BTNode<Entry<Key, Value>>) a);
+		a.setParent((BTNode<Entry<Key, Value>>) b);
+		a.setLeft((BTNode<Entry<Key, Value>>) t0);
+		a.setRight((BTNode<Entry<Key, Value>>) t1);
+		t0.setParent((BTNode<Entry<Key, Value>>) a);
+		t1.setParent((BTNode<Entry<Key, Value>>) a);
+		
+		/* PASSO 4: Faça c o filho direito de b e T2 e T3 as subárvores esquerda e direita de c, respectivamente. */
+		
+		b.setRight((BTNode<Entry<Key, Value>>) c);
+		c.setParent((BTNode<Entry<Key, Value>>) b);
+		c.setLeft((BTNode<Entry<Key, Value>>) t2);
+		c.setRight((BTNode<Entry<Key, Value>>) t3);
+		t2.setParent((BTNode<Entry<Key, Value>>) c);
+		t3.setParent((BTNode<Entry<Key, Value>>) c);
+		
+		// Redefinindo as posições dos nós depois da reestruturação:
+		((BSTEntry<Key, Value>) a.element()).position = a;
+		((BSTEntry<Key, Value>) b.element()).position = b;
+		((BSTEntry<Key, Value>) c.element()).position = c;
+		
+        return b;
 	}
 	
 	/* MÉTODOS DO TAD MAPA */

@@ -16,6 +16,9 @@ public class BTNode<Type> implements BTPosition<Type> {
 		this.parent = parent;
 	}
 	
+	public BTNode() {
+	}
+	
 	public Type element() {
 		return element;
 	}
