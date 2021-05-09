@@ -139,7 +139,7 @@ public class BinarySearchTree<Key, Value> extends LinkedBinaryTree<Entry<Key, Va
 			c = xx;
 			t0 = a.getLeft();
 			t1 = b.getLeft();
-			t2 = b.getRight();
+			t2 = c.getLeft();
 			t3 = c.getRight();
 		}
 		
