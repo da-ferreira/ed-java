@@ -1,0 +1,19 @@
+
+9. O professor Amongus afirma que a ordem na qual um conjunto fixo de itens é
+   inserido em uma árvore AVL não interessa — sempre resulta na mesma árvore.
+   Apresente um pequeno exemplo que prove que ele está errado.
+  
+Resposta: Essa afirmação está errada, pois, o conjunto fixo de itens {1, 2}, gera 2 árvores
+          AVLs diferentes:
+          
+          1)
+                 1
+                / \
+                   2
+                  / \
+          
+          2)
+                2
+               / \
+              1
+             / \
