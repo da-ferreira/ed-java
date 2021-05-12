@@ -1,0 +1,28 @@
+
+7. O professor Amongus afirma que a ordem na qual um conjunto fixo de itens é
+   inserido em uma árvore binária de pesquisa não interessa — sempre resulta na
+   mesma árvore. Apresente um pequeno exemplo que prove que ele está errado.
+   
+Resposta: O conjunto fixo de itens {1, 2, 3} não se aplica a essa afirmação, visto que é possivel formar
+          3 árvores binárias de pesquisas diferentes a partir desse conjunto:
+                    
+            1) 
+                   1
+                  / \
+                     2
+                    / \
+                       3
+                      / \ 
+            2) 
+                  2
+                 / \
+                1   3
+               / \ / \
+
+            3) 
+                     3
+                    / \
+                   2
+                  / \
+                 1
+                / \     

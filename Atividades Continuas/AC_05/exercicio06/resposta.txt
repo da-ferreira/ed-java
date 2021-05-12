@@ -1,0 +1,23 @@
+
+6. Quantas árvores binárias de pesquisas diferentes podem armazenar as chaves {1,2,3}?
+
+Resposta: 3 árvores binárias de pesquisas
+
+1) 
+       1
+        \
+         2
+          \
+           3
+2) 
+      2
+     / \
+    1   3
+
+3) 
+         3
+        /
+       2
+      /
+     1
+      

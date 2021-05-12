@@ -1,0 +1,30 @@
+
+4. Define-se uma árvore binária de pesquisa em que as chaves iguais à chave do
+   nodo podem estar ou à esquerda ou à direita da subárvore deste nodo. Suponha
+   que se altere a definição na qual restringimos chaves iguais na subárvore à
+   direita. Qual seria a subárvore de uma árvore binária de pesquisa que contenha
+   somente chaves iguais, como visto neste caso?
+
+Resposta: A subárvore da direita. Nos dois exemplos abaixo, usando um conjunto fixo de itens {2, 2, 2, 3},
+          mas mudando a ordem de inserção, elementos com chaves igual ficam à direita.
+          
+          exemplo A, com a ordem de inserção: 2, 3, 2, 2)
+            
+            2
+             \
+              3
+             /
+            2
+            \
+             2
+             
+          exemplo B, com a ordem de inserção: 2, 2, 2, 3)
+          
+            2
+             \
+              2
+               \
+                2
+                 \
+                  3
+                  
